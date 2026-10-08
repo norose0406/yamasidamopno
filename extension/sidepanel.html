@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Chrome View</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <header>
+    <h1>Chrome View</h1>
+    <button id="refresh" type="button">更新</button>
+  </header>
+
+  <section class="card">
+    <h2>現在のタブ</h2>
+    <div class="tab-head">
+      <img id="favicon" alt="" width="16" height="16">
+      <span id="title">読み込み中…</span>
+    </div>
+    <a id="url" href="#" target="_blank" rel="noopener"></a>
+    <button id="copy" type="button">URLをコピー</button>
+  </section>
+
+  <section class="card">
+    <h2>このウィンドウのタブ (<span id="count">0</span>)</h2>
+    <ul id="tabs"></ul>
+  </section>
+
+  <script src="sidepanel.js"></script>
+</body>
+</html>

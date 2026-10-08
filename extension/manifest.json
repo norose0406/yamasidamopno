@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Chrome View",
+  "version": "0.1.0",
+  "description": "サイドパネルで現在のタブ情報を表示するビュー",
+  "permissions": ["sidePanel", "tabs"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "action": {
+    "default_title": "Chrome View を開く",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
