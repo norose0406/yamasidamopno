@@ -15,16 +15,36 @@
   };
 
   function esc(s) {
-    return String(s).replace(/[&<>"']/g, function (c) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
   }
 
   function yen(n) {
-    return n == null ? "価格は商品ページで" : "¥" + n.toLocaleString("ja-JP") + "<small>（税込）</small>";
+    return n == null ? '<span class="price-ask">価格は商品ページへ</span>' : "¥" + n.toLocaleString("ja-JP") + "<small>税込</small>";
   }
 
-  /* ---------- 外部リンク ---------- */
+  function pidOf(url) {
+    var m = /[?&]pid=(\d+)/.exec(url || "");
+    return m ? m[1] : "";
+  }
+
+  // 写真URL：image 指定 > imageBase + 商品ID.jpg
+  function imageFor(obj) {
+    if (obj.image) return obj.image;
+    var pid = obj.pid || pidOf(obj.url);
+    return D.imageBase && pid ? D.imageBase + pid + ".jpg" : "";
+  }
+
+  // 写真（読み込めない場合は下のプレースホルダーが見える）
+  function media(src, catId, alt) {
+    var c = catById[catId] || {};
+    return '<span class="ph theme-' + esc(catId) + '" aria-hidden="true"><span class="ph-en">' + esc(c.en || "musubi") +
+      '</span><span class="ph-ja">' + esc(c.label || "") + "</span></span>" +
+      (src ? '<img src="' + esc(src) + '" alt="' + esc(alt) + '" loading="lazy" decoding="async" onerror="this.remove()">' : "");
+  }
+
+  /* ---------- 外部リンク・テキスト ---------- */
   $$("[data-link]").forEach(function (a) {
     var url = D.links[a.getAttribute("data-link")];
     if (url) a.href = url;
@@ -34,33 +54,28 @@
 
   /* ---------- 商品カード ---------- */
   function card(p) {
-    var c = catById[p.category] || { label: "", emoji: "" };
+    var c = catById[p.category] || {};
     var st = STATUS[p.status] || STATUS.available;
     return (
-      '<li class="card ' + st.cls + '">' +
-        '<a href="' + esc(p.url) + '">' +
-          '<div class="card-img theme-' + esc(p.category) + '">' +
-            '<span class="card-emoji" aria-hidden="true">' + c.emoji + "</span>" +
-            '<span class="badge">' + st.label + "</span>" +
-          "</div>" +
-          '<div class="card-body">' +
-            '<p class="card-cat">' + esc(c.label) + "</p>" +
-            '<h3 class="card-name">' + esc(p.name) + "</h3>" +
-            (p.spec ? '<p class="card-spec">' + esc(p.spec) + "</p>" : "") +
-            '<p class="card-price">' + yen(p.price) + "</p>" +
-            '<p class="card-shop"><span class="mini-mark" aria-hidden="true">結</span>やまなしだもの 結</p>' +
-          "</div>" +
-        "</a>" +
-      "</li>"
+      '<li class="card ' + st.cls + '"><a href="' + esc(p.url) + '">' +
+        '<div class="card-img">' + media(imageFor(p), p.category, p.name) +
+          '<span class="badge">' + st.label + "</span></div>" +
+        '<div class="card-body">' +
+          '<p class="card-cat">' + esc(c.label) + "</p>" +
+          '<h3 class="card-name">' + esc(p.name) + "</h3>" +
+          (p.spec ? '<p class="card-spec">' + esc(p.spec) + "</p>" : "") +
+          '<p class="card-price">' + yen(p.price) + "</p>" +
+          '<p class="card-shop">山梨県 ・ やまなしだもの 結</p>' +
+        "</div>" +
+      "</a></li>"
     );
   }
-
   function render(el, list) { el.innerHTML = list.map(card).join(""); }
 
-  /* ---------- カテゴリアイコン列 / フッター ---------- */
+  /* ---------- カテゴリ（写真サークル） / フッター ---------- */
   $("#cat-list").innerHTML = D.categories.map(function (c) {
-    return '<li><a href="#all" data-filter="' + c.id + '"><span class="cat-circle theme-' + c.id + '" aria-hidden="true">' +
-      c.emoji + "</span><span>" + esc(c.label) + "</span></a></li>";
+    return '<li><a href="#all" data-filter="' + c.id + '"><span class="cat-circle">' + media(imageFor(c), c.id, "") +
+      '</span><span class="cat-label">' + esc(c.label) + "</span></a></li>";
   }).join("");
   $("#footer-cats").innerHTML = D.categories.map(function (c) {
     return '<li><a href="#all" data-filter="' + c.id + '">' + esc(c.label) + "</a></li>";
@@ -73,28 +88,37 @@
     return p.status !== "soldout" && c && c.months.indexOf(month) !== -1;
   });
   var buyable = D.products.filter(function (p) { return p.status !== "soldout"; });
-  render($("#rail-season"), (inSeason.length ? inSeason : buyable).concat(
-    D.products.filter(function (p) { return p.status === "soldout"; })
-  ));
+  var seasonList = inSeason.length ? inSeason.concat(buyable.filter(function (p) { return inSeason.indexOf(p) === -1; })) : buyable;
+  render($("#rail-season"), seasonList.concat(D.products.filter(function (p) { return p.status === "soldout"; })));
 
   /* ---------- ピックアップ ---------- */
-  render($("#rail-popular"), D.products
+  $("#rail-popular").innerHTML = D.products
     .filter(function (p) { return p.pickup; })
-    .sort(function (a, b) { return a.pickup - b.pickup; }));
+    .sort(function (a, b) { return a.pickup - b.pickup; })
+    .map(function (p) {
+      var st = STATUS[p.status] || STATUS.available;
+      return '<li class="pick ' + st.cls + '"><a href="' + esc(p.url) + '">' +
+        '<div class="pick-img">' + media(imageFor(p), p.category, p.name) + "</div>" +
+        '<div class="pick-body"><span class="badge">' + st.label + "</span>" +
+        "<h3>" + esc(p.name) + "</h3>" +
+        (p.spec ? '<p class="card-spec">' + esc(p.spec) + "</p>" : "") +
+        '<p class="card-price">' + yen(p.price) + "</p></div></a></li>";
+    }).join("");
 
   /* ---------- 特集 ---------- */
   $("#feature-grid").innerHTML = D.features.map(function (f) {
-    return '<li><a class="feature theme-' + f.theme + '" href="#all" data-filter="' + f.filter + '">' +
-      '<span class="feature-emoji" aria-hidden="true">' + (catById[f.theme] || {}).emoji + "</span>" +
-      '<span class="feature-text"><strong>' + esc(f.title) + "</strong><span>" + esc(f.sub) + "</span></span>" +
-      "</a></li>";
+    return '<li><a class="feature" href="#all" data-filter="' + f.filter + '">' + media(imageFor(f), f.theme, "") +
+      '<span class="feature-text"><span class="en">Feature</span><strong>' + esc(f.title) + "</strong><span>" + esc(f.sub) + "</span></span></a></li>";
   }).join("");
+
+  /* ---------- つくり手 ---------- */
+  $("#story-photo").innerHTML = media(D.storyImage || imageFor(D.banners[0] || {}), (D.banners[0] || {}).theme, "山梨の果樹園");
 
   /* ---------- すべての商品 + 絞り込み ---------- */
   var chips = $("#chips");
   chips.innerHTML = [{ id: "all", label: "すべて" }].concat(D.categories).map(function (c, i) {
     return '<button class="chip' + (i === 0 ? " is-active" : "") + '" role="tab" aria-selected="' + (i === 0) +
-      '" data-chip="' + c.id + '">' + (c.emoji ? c.emoji + " " : "") + esc(c.label) + "</button>";
+      '" data-chip="' + c.id + '">' + esc(c.label) + "</button>";
   }).join("");
 
   function applyFilter(id) {
@@ -113,7 +137,6 @@
     var b = e.target.closest("[data-chip]");
     if (b) applyFilter(b.getAttribute("data-chip"));
   });
-  // カテゴリアイコン・特集・バナー・フッターからの絞り込み
   document.addEventListener("click", function (e) {
     var a = e.target.closest("[data-filter]");
     if (a) applyFilter(a.getAttribute("data-filter"));
@@ -145,30 +168,32 @@
   /* ---------- 旬のカレンダー ---------- */
   var months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   var cal = '<div class="cal-row cal-head"><span></span>' + months.map(function (m) {
-    return '<span class="' + (m === month ? "is-now" : "") + '">' + m + "</span>";
+    return '<span class="' + (m === month ? "is-now" : "") + '">' + m + "月</span>";
   }).join("") + "</div>";
   D.categories.filter(function (c) { return c.months.length; }).forEach(function (c) {
-    cal += '<div class="cal-row"><span class="cal-label">' + c.emoji + " " + esc(c.label) + "</span>" +
+    cal += '<div class="cal-row"><span class="cal-label">' + esc(c.label) + "</span>" +
       months.map(function (m) {
-        return '<span class="cal-cell' + (c.months.indexOf(m) !== -1 ? " on theme-" + c.id : "") + (m === month ? " is-now" : "") + '"></span>';
+        var on = c.months.indexOf(m) !== -1;
+        return '<span class="cal-cell' + (on ? " on" : "") + (m === month ? " is-now" : "") + '">' +
+          (on ? '<i class="theme-' + c.id + '"></i>' : "") + "</span>";
       }).join("") + "</div>";
   });
   $("#calendar").innerHTML = cal;
 
   /* ---------- お知らせ ---------- */
   $("#news-list").innerHTML = D.news.map(function (n) {
-    return '<li><time>' + esc(n.date) + "</time><p>" + esc(n.title) + "</p></li>";
+    return "<li><time>" + esc(n.date) + "</time><p>" + esc(n.title) + "</p></li>";
   }).join("");
 
   /* ---------- メインバナー（カルーセル） ---------- */
   var track = $("#hero-track");
   var dots = $("#hero-dots");
   track.innerHTML = D.banners.map(function (b, i) {
-    return '<a class="slide theme-' + b.theme + '" href="' + esc(b.href) + '"' + (b.filter ? ' data-filter="' + b.filter + '"' : "") +
-      ' aria-label="' + (i + 1) + " / " + D.banners.length + '">' +
+    return '<a class="slide" href="' + esc(b.href) + '"' + (b.filter ? ' data-filter="' + b.filter + '"' : "") +
+      ' aria-label="' + esc(b.title) + "（" + (i + 1) + " / " + D.banners.length + '）">' +
+      media(imageFor(b), b.theme, "") +
       '<span class="slide-text"><span class="slide-sub">' + esc(b.sub) + "</span><strong>" + esc(b.title) + "</strong>" +
-      '<span class="slide-cta">詳しく見る ›</span></span>' +
-      '<span class="slide-emoji" aria-hidden="true">' + (catById[b.theme] || {}).emoji + "</span></a>";
+      '<span class="slide-cta">詳しく見る</span></span></a>';
   }).join("");
   dots.innerHTML = D.banners.map(function (_, i) {
     return '<button role="tab" aria-label="バナー' + (i + 1) + '"></button>';
@@ -199,7 +224,7 @@
 
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var timer;
-  function auto() { if (!reduce) timer = setInterval(function () { go(idx + 1); }, 5000); }
+  function auto() { clearInterval(timer); if (!reduce) timer = setInterval(function () { go(idx + 1); }, 5500); }
   $(".hero").addEventListener("mouseenter", function () { clearInterval(timer); });
   $(".hero").addEventListener("mouseleave", auto);
   track.addEventListener("touchstart", function () { clearInterval(timer); }, { passive: true });

@@ -11,32 +11,25 @@
   <meta property="og:url" content="https://mb-musubi.net/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Maru+Gothic:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Shippori+Mincho:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <a class="skip" href="#main">本文へスキップ</a>
 
-  <!-- お知らせバー -->
-  <div class="topbar">
-    <p class="wrap" id="topbar-text">山梨の果樹園から産地直送でお届けします</p>
-  </div>
+  <div class="topbar"><p class="wrap" id="topbar-text"></p></div>
 
-  <!-- ヘッダー：ロゴ / 検索 / アイコン -->
   <header class="site-header" id="top">
     <div class="wrap header-inner">
       <a class="logo" href="./" aria-label="やまなしだもの 結 musubi トップへ">
-        <span class="logo-mark" aria-hidden="true">結</span>
-        <span class="logo-text">
-          <span class="logo-sub">やまなしだもの</span>
-          <span class="logo-main">musubi</span>
-        </span>
+        <span class="logo-sub">やまなしだもの</span>
+        <span class="logo-main"><span class="logo-kanji">結</span>musubi</span>
       </a>
 
       <form class="search" role="search" id="search-form">
         <label class="sr-only" for="search-input">商品を検索</label>
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-        <input id="search-input" type="search" placeholder="くだもの・商品名で探す（例：シャインマスカット）" autocomplete="off">
+        <input id="search-input" type="search" placeholder="シャインマスカット、キウイ…" autocomplete="off">
       </form>
 
       <nav class="header-icons" aria-label="ユーザーメニュー">
@@ -57,16 +50,16 @@
   </header>
 
   <main id="main">
-    <!-- カテゴリアイコン列 -->
+    <!-- カテゴリ（写真サークル） -->
     <nav class="cat-nav" aria-label="カテゴリ">
       <ul class="wrap cat-list" id="cat-list"></ul>
     </nav>
 
-    <!-- メインバナー（カルーセル） -->
+    <!-- メインバナー -->
     <section class="hero" aria-roledescription="carousel" aria-label="特集バナー">
       <div class="hero-track" id="hero-track"></div>
-      <button class="hero-nav prev" aria-label="前のバナー">‹</button>
-      <button class="hero-nav next" aria-label="次のバナー">›</button>
+      <button class="hero-nav prev" aria-label="前のバナー"><svg class="icon" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button>
+      <button class="hero-nav next" aria-label="次のバナー"><svg class="icon" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></button>
       <div class="hero-dots" id="hero-dots" role="tablist"></div>
     </section>
 
@@ -81,85 +74,59 @@
       </div>
     </section>
 
-    <!-- 旬のおすすめ（横スクロール） -->
     <section class="section">
       <div class="wrap">
         <div class="sec-head">
-          <h2 class="sec-title"><span class="sec-icon" aria-hidden="true">🍇</span>いまが旬のおすすめ</h2>
-          <a class="more" href="#all">すべて見る ›</a>
+          <h2 class="sec-title"><span class="en">In Season</span>いまが旬のおすすめ</h2>
+          <a class="more" href="#all">すべて見る</a>
         </div>
-        <div class="rail">
-          <ul class="rail-track" id="rail-season"></ul>
-        </div>
+        <div class="rail"><ul class="rail-track" id="rail-season"></ul></div>
       </div>
     </section>
 
-    <!-- ピックアップ（ランキング風） -->
-    <section class="section section-tint">
-      <div class="wrap">
-        <div class="sec-head">
-          <h2 class="sec-title"><span class="sec-icon" aria-hidden="true">⭐</span>おすすめピックアップ</h2>
-        </div>
-        <div class="rail">
-          <ul class="rail-track" id="rail-popular"></ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- 特集バナー -->
     <section class="section">
       <div class="wrap">
         <div class="sec-head">
-          <h2 class="sec-title"><span class="sec-icon" aria-hidden="true">🎁</span>特集</h2>
+          <h2 class="sec-title"><span class="en">Pick Up</span>おすすめピックアップ</h2>
+        </div>
+        <ul class="pickup" id="rail-popular"></ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 class="sec-title"><span class="en">Feature</span>特集</h2>
         </div>
         <ul class="feature-grid" id="feature-grid"></ul>
       </div>
     </section>
 
-    <!-- 生産者・お店紹介 -->
-    <section class="section" id="about">
-      <div class="wrap">
-        <div class="sec-head">
-          <h2 class="sec-title"><span class="sec-icon" aria-hidden="true">🌱</span>つくり手・お店のこと</h2>
+    <!-- つくり手 -->
+    <section class="section story" id="about">
+      <div class="wrap story-inner">
+        <figure class="story-photo" id="story-photo"></figure>
+        <div class="story-body">
+          <p class="en">Our Story</p>
+          <h2>山梨の実りを、<br>人と人へ結ぶ。</h2>
+          <p>
+            「結（むすび）」は、山梨のくだものと、それを味わう人とを結ぶお店です。
+            盆地の寒暖差とたっぷりの日差しのなかで育ったくだものを、
+            収穫のタイミングを見きわめて産地から直接お届けします。
+          </p>
+          <p>
+            旬の生果はもちろん、果実の味わいを閉じ込めたコンポートなど、
+            ご自宅用にも贈りものにも選んでいただけるラインナップをご用意しています。
+          </p>
+          <ul class="tags"><li>産地直送</li><li>数量限定</li><li>ギフト対応</li></ul>
         </div>
-        <article class="producer">
-          <div class="producer-visual" aria-hidden="true">
-            <svg viewBox="0 0 400 260">
-              <rect width="400" height="260" fill="#eaf3e3"/>
-              <path d="M0 170 Q100 110 200 150 T400 130 V260 H0z" fill="#cfe3bf"/>
-              <path d="M0 200 Q120 160 240 190 T400 180 V260 H0z" fill="#a9cc92"/>
-              <path d="M150 90 l40 -50 l40 50z" fill="#fff" opacity=".9"/>
-              <path d="M120 120 l70 -80 l70 80z" fill="#9db4c8" opacity=".55"/>
-              <circle cx="330" cy="60" r="26" fill="#ffd27a"/>
-              <g fill="#5d8a46"><circle cx="60" cy="175" r="22"/><circle cx="110" cy="165" r="18"/><circle cx="300" cy="170" r="22"/><circle cx="350" cy="178" r="17"/></g>
-              <g fill="#f4a3a0"><circle cx="54" cy="170" r="4"/><circle cx="66" cy="180" r="4"/><circle cx="296" cy="166" r="4"/></g>
-            </svg>
-          </div>
-          <div class="producer-body">
-            <p class="producer-area">山梨県</p>
-            <h3>やまなしだもの 結 musubi</h3>
-            <p>
-              「結（むすび）」は、山梨のくだものと、それを味わう人とを結ぶお店です。
-              盆地の寒暖差とたっぷりの日差しのなかで育ったくだものを、
-              収穫のタイミングを見きわめて産地から直接お届けします。
-            </p>
-            <p>
-              旬の生果はもちろん、果実の味わいを閉じ込めたコンポートなど、
-              ご自宅用にも贈りものにも選んでいただけるラインナップをご用意しています。
-            </p>
-            <ul class="tags">
-              <li>産地直送</li><li>数量限定</li><li>ギフト対応</li>
-            </ul>
-          </div>
-        </article>
       </div>
     </section>
 
-    <!-- すべての商品（カテゴリ絞り込み） -->
-    <section class="section section-tint" id="all">
+    <section class="section" id="all">
       <div class="wrap">
         <div class="sec-head">
-          <h2 class="sec-title"><span class="sec-icon" aria-hidden="true">🧺</span>すべての商品</h2>
+          <h2 class="sec-title"><span class="en">All Items</span>すべての商品</h2>
         </div>
         <div class="chips" id="chips" role="tablist" aria-label="カテゴリで絞り込み"></div>
         <ul class="card-grid" id="all-grid"></ul>
@@ -167,51 +134,46 @@
       </div>
     </section>
 
-    <!-- 旬のカレンダー -->
-    <section class="section" id="season">
+    <section class="section section-tint" id="season">
       <div class="wrap">
         <div class="sec-head">
-          <h2 class="sec-title"><span class="sec-icon" aria-hidden="true">📅</span>旬のカレンダー</h2>
+          <h2 class="sec-title"><span class="en">Calendar</span>旬のカレンダー</h2>
         </div>
         <div class="calendar" id="calendar"></div>
         <p class="note">※ お届け時期の目安です。天候により前後します。実際の販売時期は各商品ページ・お知らせをご確認ください。</p>
       </div>
     </section>
 
-    <!-- お知らせ -->
-    <section class="section section-tint" id="news">
-      <div class="wrap">
-        <div class="sec-head">
-          <h2 class="sec-title"><span class="sec-icon" aria-hidden="true">📢</span>お知らせ</h2>
-        </div>
+    <section class="section" id="news">
+      <div class="wrap news-inner">
+        <h2 class="sec-title"><span class="en">News</span>お知らせ</h2>
         <ul class="news-list" id="news-list"></ul>
       </div>
     </section>
 
-    <!-- ご利用ガイド -->
-    <section class="section" id="guide">
+    <section class="section section-tint" id="guide">
       <div class="wrap">
         <div class="sec-head">
-          <h2 class="sec-title"><span class="sec-icon" aria-hidden="true">📦</span>ご利用ガイド</h2>
+          <h2 class="sec-title"><span class="en">Guide</span>ご利用ガイド</h2>
         </div>
         <ul class="guide-grid">
           <li class="guide-card">
-            <span class="guide-icon" aria-hidden="true">🛒</span>
+            <svg class="gicon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.4 11h11L21 7H6.2"/><circle cx="9" cy="19.5" r="1.5"/><circle cx="17" cy="19.5" r="1.5"/></svg>
             <h3>ご注文</h3>
             <p>商品ページからカートに入れてご注文ください。数量限定商品はなくなり次第終了です。</p>
           </li>
           <li class="guide-card">
-            <span class="guide-icon" aria-hidden="true">🚚</span>
+            <svg class="gicon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 7h11v9H2zM13 10h4l4 3v3h-8z"/><circle cx="6" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>
             <h3>お届け</h3>
             <p>収穫・選果のうえ発送します。天候により発送日が前後する場合があります。</p>
           </li>
           <li class="guide-card">
-            <span class="guide-icon" aria-hidden="true">💴</span>
+            <svg class="gicon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 3 8l9 5 9-5-9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>
             <h3>送料</h3>
             <p>お届け先の地域により異なります。<a href="#" data-link="delivery">送料・配送方法</a></p>
           </li>
           <li class="guide-card">
-            <span class="guide-icon" aria-hidden="true">💳</span>
+            <svg class="gicon" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg>
             <h3>お支払い</h3>
             <p>ご利用いただける方法は<a href="#" data-link="payment">お支払い方法</a>をご確認ください。</p>
           </li>
@@ -224,8 +186,8 @@
     <div class="wrap footer-cols">
       <div class="footer-brand">
         <a class="logo logo-invert" href="./">
-          <span class="logo-mark" aria-hidden="true">結</span>
-          <span class="logo-text"><span class="logo-sub">やまなしだもの</span><span class="logo-main">musubi</span></span>
+          <span class="logo-sub">やまなしだもの</span>
+          <span class="logo-main"><span class="logo-kanji">結</span>musubi</span>
         </a>
         <p>山梨のくだものを、産地から食卓へ。</p>
         <a class="btn btn-light" href="#" data-link="inquiry">お問い合わせ</a>
@@ -256,12 +218,11 @@
     <p class="copy">&copy; <span id="year"></span> やまなしだもの 結 musubi</p>
   </footer>
 
-  <!-- スマホ用ボトムナビ -->
   <nav class="bottom-nav" aria-label="クイックメニュー">
-    <a href="./"><span aria-hidden="true">🏠</span>ホーム</a>
-    <a href="#all"><span aria-hidden="true">🧺</span>商品</a>
-    <a href="#search-input" id="bn-search"><span aria-hidden="true">🔍</span>検索</a>
-    <a href="#" data-link="cart"><span aria-hidden="true">🛒</span>カート</a>
+    <a href="./"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11 12 4l9 7v9h-6v-6H9v6H3z"/></svg>ホーム</a>
+    <a href="#all"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>商品</a>
+    <a href="#search-input" id="bn-search"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>検索</a>
+    <a href="#" data-link="cart"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.4 11h11L21 7H6.2"/><circle cx="9" cy="19.5" r="1.5"/><circle cx="17" cy="19.5" r="1.5"/></svg>カート</a>
   </nav>
 
   <script src="js/data.js"></script>
