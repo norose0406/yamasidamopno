@@ -1,0 +1,288 @@
+/* =========================================================
+   やまなしだもの 結 musubi
+   レイアウト：マーケットプレイス型（ヘッダー検索 / カテゴリ列 /
+   バナーカルーセル / 横スクロール商品列 / 特集 / 生産者 / 多段フッター）
+   ========================================================= */
+
+:root {
+  --brand: #d9534f;          /* 桃の紅 */
+  --brand-dark: #b83d3a;
+  --leaf: #5d8a46;
+  --ink: #2b2b2b;
+  --ink-2: #666;
+  --line: #e8e4de;
+  --bg: #ffffff;
+  --tint: #faf7f2;
+  --yellow: #ffd27a;
+
+  --t-peach: #fde3df;
+  --t-grape: #e6f2d6;
+  --t-compote: #fdf0d6;
+  --t-corn: #fff4c2;
+  --t-kiwi: #e9eed9;
+
+  --radius: 12px;
+  --shadow: 0 2px 10px rgba(0, 0, 0, .06);
+  --header-h: 64px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + 12px); }
+body {
+  margin: 0;
+  font-family: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+img, svg { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; margin: 0; padding: 0; }
+h1, h2, h3, p { margin: 0; }
+button { font: inherit; color: inherit; cursor: pointer; }
+
+.wrap { width: min(1160px, 100% - 32px); margin-inline: auto; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip { position: absolute; left: -999px; top: 8px; background: #000; color: #fff; padding: 8px 12px; z-index: 100; }
+.skip:focus { left: 8px; }
+:focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
+.icon { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+/* テーマ色（カテゴリごと） */
+.theme-peach   { background: var(--t-peach); }
+.theme-grape   { background: var(--t-grape); }
+.theme-compote { background: var(--t-compote); }
+.theme-corn    { background: var(--t-corn); }
+.theme-kiwi    { background: var(--t-kiwi); }
+
+/* ---------- トップバー ---------- */
+.topbar { background: var(--brand); color: #fff; font-size: 13px; text-align: center; padding: 6px 0; }
+
+/* ---------- ヘッダー ---------- */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(255, 255, 255, .96);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.header-inner { display: flex; align-items: center; gap: 20px; height: var(--header-h); }
+
+.logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.logo-mark {
+  display: grid; place-items: center;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--brand); color: #fff;
+  font-family: "Zen Maru Gothic", sans-serif; font-weight: 700; font-size: 20px;
+}
+.logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+.logo-sub { font-size: 11px; color: var(--ink-2); letter-spacing: .08em; }
+.logo-main { font-family: "Zen Maru Gothic", sans-serif; font-weight: 700; font-size: 22px; color: var(--brand); letter-spacing: .02em; }
+
+.search {
+  flex: 1; display: flex; align-items: center; gap: 8px;
+  max-width: 560px; height: 42px; padding: 0 16px;
+  background: #f3f1ed; border-radius: 999px; color: var(--ink-2);
+  border: 1px solid transparent; transition: border-color .2s, background .2s;
+}
+.search:focus-within { background: #fff; border-color: var(--brand); }
+.search input { flex: 1; min-width: 0; border: 0; background: none; font: inherit; font-size: 14px; color: var(--ink); outline: none; }
+
+.header-icons { display: flex; gap: 6px; margin-left: auto; }
+.hicon { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 4px 10px; font-size: 11px; color: var(--ink-2); border-radius: 8px; }
+.hicon:hover { color: var(--brand); background: var(--tint); }
+
+/* ---------- カテゴリアイコン列 ---------- */
+.cat-nav { border-bottom: 1px solid var(--line); background: #fff; }
+.cat-list { display: flex; gap: 8px; justify-content: center; padding: 14px 0; overflow-x: auto; scrollbar-width: none; }
+.cat-list::-webkit-scrollbar { display: none; }
+.cat-list a { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 88px; font-size: 13px; font-weight: 500; }
+.cat-circle { display: grid; place-items: center; width: 60px; height: 60px; border-radius: 50%; font-size: 30px; transition: transform .2s; }
+.cat-list a:hover .cat-circle { transform: translateY(-3px); }
+
+/* ---------- メインバナー ---------- */
+.hero { position: relative; padding: 20px 0 8px; }
+.hero-track {
+  display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory;
+  padding: 0 max(16px, calc((100% - 960px) / 2)); scrollbar-width: none;
+}
+.hero-track::-webkit-scrollbar { display: none; }
+.slide {
+  position: relative; flex: 0 0 min(960px, 88%); aspect-ratio: 960 / 340;
+  scroll-snap-align: center; border-radius: 16px; overflow: hidden;
+  display: flex; align-items: center; justify-content: space-between; padding: 0 6%;
+}
+.slide-text { display: flex; flex-direction: column; gap: 8px; z-index: 1; }
+.slide-sub { font-size: clamp(12px, 1.6vw, 16px); color: var(--ink-2); }
+.slide strong { font-family: "Zen Maru Gothic", sans-serif; font-size: clamp(22px, 4.2vw, 44px); line-height: 1.25; }
+.slide-cta { align-self: flex-start; margin-top: 6px; padding: 6px 16px; background: var(--ink); color: #fff; border-radius: 999px; font-size: 13px; }
+.slide-emoji { font-size: clamp(80px, 16vw, 180px); line-height: 1; filter: drop-shadow(0 10px 18px rgba(0,0,0,.12)); }
+.hero-nav {
+  position: absolute; top: calc(50% - 10px); transform: translateY(-50%);
+  width: 40px; height: 40px; border-radius: 50%; border: 0;
+  background: #fff; box-shadow: var(--shadow); font-size: 24px; line-height: 1;
+}
+.hero-nav.prev { left: max(8px, calc((100% - 960px) / 2 - 20px)); }
+.hero-nav.next { right: max(8px, calc((100% - 960px) / 2 - 20px)); }
+.hero-dots { display: flex; justify-content: center; gap: 8px; margin-top: 12px; }
+.hero-dots button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 999px; background: #d6d2cc; transition: width .2s, background .2s; }
+.hero-dots button[aria-selected="true"] { width: 22px; background: var(--brand); }
+
+/* ---------- セクション共通 ---------- */
+.section { padding: 36px 0; }
+.section-tint { background: var(--tint); }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.sec-title { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 700; }
+.sec-icon { font-size: 22px; }
+.more { font-size: 13px; color: var(--brand); background: none; border: 0; padding: 0; white-space: nowrap; }
+.more:hover { text-decoration: underline; }
+.note { margin-top: 12px; font-size: 12px; color: var(--ink-2); }
+
+/* ---------- 横スクロール列 ---------- */
+.rail { margin-inline: -16px; }
+.rail-track {
+  display: grid; grid-auto-flow: column; grid-auto-columns: 210px; gap: 14px;
+  overflow-x: auto; scroll-snap-type: x proximity; padding: 4px 16px 12px;
+}
+.rail-track > * { scroll-snap-align: start; }
+
+/* ---------- 商品カード ---------- */
+.card { background: #fff; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); transition: transform .2s, box-shadow .2s; }
+.card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,.08); }
+.card > a { display: flex; flex-direction: column; height: 100%; }
+.card-img { position: relative; aspect-ratio: 1; display: grid; place-items: center; }
+.card-emoji { font-size: 72px; }
+.badge { position: absolute; top: 8px; left: 8px; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; background: var(--leaf); color: #fff; }
+.is-reserve .badge { background: #e8913a; }
+.is-soldout .badge { background: #888; }
+.is-soldout .card-img { filter: grayscale(.6); opacity: .75; }
+.card-body { display: flex; flex-direction: column; gap: 4px; padding: 10px 12px 14px; flex: 1; }
+.card-cat { font-size: 11px; color: var(--ink-2); }
+.card-name { font-size: 14px; font-weight: 700; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.card-spec { font-size: 12px; color: var(--ink-2); line-height: 1.5; }
+.card-price { margin-top: auto; padding-top: 4px; font-size: 17px; font-weight: 700; color: var(--brand); }
+.card-price small { font-size: 11px; color: var(--ink-2); font-weight: 400; }
+.card-shop { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--ink-2); border-top: 1px solid var(--line); padding-top: 8px; margin-top: 6px; }
+.mini-mark { display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--brand); color: #fff; font-size: 10px; }
+
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+.empty { padding: 32px 0; text-align: center; color: var(--ink-2); }
+
+/* ---------- 絞り込みチップ ---------- */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.chip { padding: 6px 14px; border: 1px solid var(--line); background: #fff; border-radius: 999px; font-size: 13px; }
+.chip:hover { border-color: var(--brand); }
+.chip.is-active { background: var(--brand); border-color: var(--brand); color: #fff; }
+
+/* ---------- 特集 ---------- */
+.feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.feature {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  height: 140px; padding: 0 28px; border-radius: var(--radius); overflow: hidden; transition: transform .2s;
+}
+.feature:hover { transform: translateY(-3px); }
+.feature-text { display: flex; flex-direction: column; gap: 4px; }
+.feature-text strong { font-family: "Zen Maru Gothic", sans-serif; font-size: 20px; }
+.feature-text span { font-size: 13px; color: var(--ink-2); }
+.feature-emoji { order: 2; font-size: 72px; }
+
+/* ---------- 生産者・お店 ---------- */
+.producer { display: grid; grid-template-columns: 1fr 1.2fr; gap: 28px; align-items: center; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.producer-visual svg { width: 100%; height: 100%; object-fit: cover; }
+.producer-body { padding: 24px 28px 24px 0; display: flex; flex-direction: column; gap: 12px; }
+.producer-area { font-size: 12px; color: var(--leaf); font-weight: 700; }
+.producer-body h3 { font-size: 20px; }
+.producer-body p { font-size: 14px; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tags li { font-size: 12px; padding: 2px 10px; border-radius: 999px; background: var(--t-grape); color: var(--leaf); }
+
+/* ---------- 旬カレンダー ---------- */
+.calendar { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+.cal-row { display: grid; grid-template-columns: 130px repeat(12, minmax(36px, 1fr)); min-width: 600px; border-bottom: 1px solid var(--line); }
+.cal-row:last-child { border-bottom: 0; }
+.cal-row > span { padding: 10px 0; text-align: center; font-size: 12px; }
+.cal-head > span { color: var(--ink-2); font-weight: 700; }
+.cal-head .is-now { color: var(--brand); }
+.cal-label { text-align: left !important; padding-left: 14px !important; font-weight: 700; font-size: 13px !important; }
+.cal-cell { margin: 8px 0; padding: 0 !important; }
+.cal-cell.on { border-radius: 0; }
+.cal-cell.is-now { box-shadow: inset 2px 0 0 var(--brand), inset -2px 0 0 var(--brand); }
+
+/* ---------- お知らせ ---------- */
+.news-list { background: #fff; border-radius: var(--radius); border: 1px solid var(--line); }
+.news-list li { display: flex; gap: 20px; padding: 14px 20px; border-bottom: 1px solid var(--line); font-size: 14px; }
+.news-list li:last-child { border-bottom: 0; }
+.news-list time { flex-shrink: 0; color: var(--ink-2); font-size: 13px; min-width: 80px; }
+
+/* ---------- ご利用ガイド ---------- */
+.guide-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.guide-card { padding: 20px; border: 1px solid var(--line); border-radius: var(--radius); text-align: center; }
+.guide-icon { font-size: 32px; }
+.guide-card h3 { margin: 6px 0; font-size: 16px; }
+.guide-card p { font-size: 13px; color: var(--ink-2); }
+.guide-card a { color: var(--brand); text-decoration: underline; }
+
+/* ---------- フッター ---------- */
+.site-footer { background: #3a3532; color: #e9e4dd; padding: 44px 0 0; margin-top: 20px; }
+.footer-cols { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; }
+.footer-brand { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; font-size: 13px; }
+.logo-invert .logo-sub { color: #bdb5ab; }
+.logo-invert .logo-main { color: #fff; }
+.site-footer h3 { font-size: 14px; margin-bottom: 12px; color: #fff; }
+.site-footer li { margin-bottom: 8px; font-size: 13px; }
+.site-footer li a:hover { text-decoration: underline; }
+.btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 22px; border-radius: 999px; font-weight: 700; font-size: 14px; }
+.btn-light { background: #fff; color: var(--ink); }
+.btn-light:hover { background: var(--yellow); }
+.copy { margin-top: 36px; padding: 16px; text-align: center; font-size: 12px; color: #a39b91; border-top: 1px solid rgba(255,255,255,.1); }
+
+.bottom-nav { display: none; }
+
+/* ---------- レスポンシブ ---------- */
+@media (max-width: 900px) {
+  .guide-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-cols { grid-template-columns: 1fr 1fr; }
+  .footer-brand { grid-column: 1 / -1; }
+}
+
+@media (max-width: 720px) {
+  :root { --header-h: auto; }
+  .topbar { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .topbar .wrap { overflow: hidden; text-overflow: ellipsis; }
+  .header-inner { flex-wrap: wrap; height: auto; padding: 10px 0; gap: 10px; }
+  .search { order: 3; flex-basis: 100%; max-width: none; height: 40px; }
+  .header-icons .hicon:not(:last-child) { display: none; }
+  .cat-list { justify-content: flex-start; }
+  .cat-list a { width: 72px; font-size: 12px; }
+  .cat-circle { width: 52px; height: 52px; font-size: 26px; }
+  .slide { aspect-ratio: 16 / 9; flex-basis: 88%; }
+  .hero-nav { display: none; }
+  .section { padding: 28px 0; }
+  .sec-title { font-size: 18px; }
+  .rail-track { grid-auto-columns: 160px; gap: 10px; }
+  .card-emoji { font-size: 56px; }
+  .card-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .feature-grid { grid-template-columns: 1fr; }
+  .feature { height: 110px; padding: 0 20px; }
+  .feature-emoji { font-size: 56px; }
+  .producer { grid-template-columns: 1fr; gap: 0; }
+  .producer-body { padding: 20px; }
+  .guide-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .guide-card { padding: 14px; }
+  .news-list li { flex-direction: column; gap: 2px; padding: 12px 16px; }
+
+  body { padding-bottom: 64px; }
+  .bottom-nav {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    position: fixed; inset: auto 0 0 0; z-index: 60;
+    background: #fff; border-top: 1px solid var(--line);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .bottom-nav a { display: flex; flex-direction: column; align-items: center; padding: 8px 0; font-size: 10px; color: var(--ink-2); }
+  .bottom-nav span { font-size: 20px; line-height: 1.2; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}

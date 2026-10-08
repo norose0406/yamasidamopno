@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>やまなしだもの 結 musubi｜山梨のくだもの産地直送</title>
+  <meta name="description" content="山梨の果樹園から、旬のくだものを産地直送。桃・ぶどう・コンポート・とうもろこし・キウイをお届けする「やまなしだもの 結 musubi」。">
+  <meta property="og:title" content="やまなしだもの 結 musubi">
+  <meta property="og:description" content="山梨の果樹園から、旬のくだものを産地直送。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mb-musubi.net/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Maru+Gothic:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip" href="#main">本文へスキップ</a>
+
+  <!-- お知らせバー -->
+  <div class="topbar">
+    <p class="wrap" id="topbar-text">山梨の果樹園から産地直送でお届けします</p>
+  </div>
+
+  <!-- ヘッダー：ロゴ / 検索 / アイコン -->
+  <header class="site-header" id="top">
+    <div class="wrap header-inner">
+      <a class="logo" href="./" aria-label="やまなしだもの 結 musubi トップへ">
+        <span class="logo-mark" aria-hidden="true">結</span>
+        <span class="logo-text">
+          <span class="logo-sub">やまなしだもの</span>
+          <span class="logo-main">musubi</span>
+        </span>
+      </a>
+
+      <form class="search" role="search" id="search-form">
+        <label class="sr-only" for="search-input">商品を検索</label>
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <input id="search-input" type="search" placeholder="くだもの・商品名で探す（例：シャインマスカット）" autocomplete="off">
+      </form>
+
+      <nav class="header-icons" aria-label="ユーザーメニュー">
+        <a href="#news" class="hicon">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+          <span>お知らせ</span>
+        </a>
+        <a href="#" data-link="mypage" class="hicon">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+          <span>マイページ</span>
+        </a>
+        <a href="#" data-link="cart" class="hicon">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.4 11h11L21 7H6.2"/><circle cx="9" cy="19.5" r="1.5"/><circle cx="17" cy="19.5" r="1.5"/></svg>
+          <span>カート</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- カテゴリアイコン列 -->
+    <nav class="cat-nav" aria-label="カテゴリ">
+      <ul class="wrap cat-list" id="cat-list"></ul>
+    </nav>
+
+    <!-- メインバナー（カルーセル） -->
+    <section class="hero" aria-roledescription="carousel" aria-label="特集バナー">
+      <div class="hero-track" id="hero-track"></div>
+      <button class="hero-nav prev" aria-label="前のバナー">‹</button>
+      <button class="hero-nav next" aria-label="次のバナー">›</button>
+      <div class="hero-dots" id="hero-dots" role="tablist"></div>
+    </section>
+
+    <!-- 検索結果 -->
+    <section class="section" id="search-results" hidden>
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 class="sec-title" id="search-title">検索結果</h2>
+          <button class="more" id="search-clear">クリア</button>
+        </div>
+        <ul class="card-grid" id="search-grid"></ul>
+      </div>
+    </section>
+
+    <!-- 旬のおすすめ（横スクロール） -->
+    <section class="section">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 class="sec-title"><span class="sec-icon" aria-hidden="true">🍇</span>いまが旬のおすすめ</h2>
+          <a class="more" href="#all">すべて見る ›</a>
+        </div>
+        <div class="rail">
+          <ul class="rail-track" id="rail-season"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ピックアップ（ランキング風） -->
+    <section class="section section-tint">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 class="sec-title"><span class="sec-icon" aria-hidden="true">⭐</span>おすすめピックアップ</h2>
+        </div>
+        <div class="rail">
+          <ul class="rail-track" id="rail-popular"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 特集バナー -->
+    <section class="section">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 class="sec-title"><span class="sec-icon" aria-hidden="true">🎁</span>特集</h2>
+        </div>
+        <ul class="feature-grid" id="feature-grid"></ul>
+      </div>
+    </section>
+
+    <!-- 生産者・お店紹介 -->
+    <section class="section" id="about">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 class="sec-title"><span class="sec-icon" aria-hidden="true">🌱</span>つくり手・お店のこと</h2>
+        </div>
+        <article class="producer">
+          <div class="producer-visual" aria-hidden="true">
+            <svg viewBox="0 0 400 260">
+              <rect width="400" height="260" fill="#eaf3e3"/>
+              <path d="M0 170 Q100 110 200 150 T400 130 V260 H0z" fill="#cfe3bf"/>
+              <path d="M0 200 Q120 160 240 190 T400 180 V260 H0z" fill="#a9cc92"/>
+              <path d="M150 90 l40 -50 l40 50z" fill="#fff" opacity=".9"/>
+              <path d="M120 120 l70 -80 l70 80z" fill="#9db4c8" opacity=".55"/>
+              <circle cx="330" cy="60" r="26" fill="#ffd27a"/>
+              <g fill="#5d8a46"><circle cx="60" cy="175" r="22"/><circle cx="110" cy="165" r="18"/><circle cx="300" cy="170" r="22"/><circle cx="350" cy="178" r="17"/></g>
+              <g fill="#f4a3a0"><circle cx="54" cy="170" r="4"/><circle cx="66" cy="180" r="4"/><circle cx="296" cy="166" r="4"/></g>
+            </svg>
+          </div>
+          <div class="producer-body">
+            <p class="producer-area">山梨県</p>
+            <h3>やまなしだもの 結 musubi</h3>
+            <p>
+              「結（むすび）」は、山梨のくだものと、それを味わう人とを結ぶお店です。
+              盆地の寒暖差とたっぷりの日差しのなかで育ったくだものを、
+              収穫のタイミングを見きわめて産地から直接お届けします。
+            </p>
+            <p>
+              旬の生果はもちろん、果実の味わいを閉じ込めたコンポートなど、
+              ご自宅用にも贈りものにも選んでいただけるラインナップをご用意しています。
+            </p>
+            <ul class="tags">
+              <li>産地直送</li><li>数量限定</li><li>ギフト対応</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- すべての商品（カテゴリ絞り込み） -->
+    <section class="section section-tint" id="all">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 class="sec-title"><span class="sec-icon" aria-hidden="true">🧺</span>すべての商品</h2>
+        </div>
+        <div class="chips" id="chips" role="tablist" aria-label="カテゴリで絞り込み"></div>
+        <ul class="card-grid" id="all-grid"></ul>
+        <p class="empty" id="all-empty" hidden>このカテゴリの商品は、ただいま準備中です。旬の時期をお待ちください。</p>
+      </div>
+    </section>
+
+    <!-- 旬のカレンダー -->
+    <section class="section" id="season">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 class="sec-title"><span class="sec-icon" aria-hidden="true">📅</span>旬のカレンダー</h2>
+        </div>
+        <div class="calendar" id="calendar"></div>
+        <p class="note">※ お届け時期の目安です。天候により前後します。実際の販売時期は各商品ページ・お知らせをご確認ください。</p>
+      </div>
+    </section>
+
+    <!-- お知らせ -->
+    <section class="section section-tint" id="news">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 class="sec-title"><span class="sec-icon" aria-hidden="true">📢</span>お知らせ</h2>
+        </div>
+        <ul class="news-list" id="news-list"></ul>
+      </div>
+    </section>
+
+    <!-- ご利用ガイド -->
+    <section class="section" id="guide">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 class="sec-title"><span class="sec-icon" aria-hidden="true">📦</span>ご利用ガイド</h2>
+        </div>
+        <ul class="guide-grid">
+          <li class="guide-card">
+            <span class="guide-icon" aria-hidden="true">🛒</span>
+            <h3>ご注文</h3>
+            <p>商品ページからカートに入れてご注文ください。数量限定商品はなくなり次第終了です。</p>
+          </li>
+          <li class="guide-card">
+            <span class="guide-icon" aria-hidden="true">🚚</span>
+            <h3>お届け</h3>
+            <p>収穫・選果のうえ発送します。天候により発送日が前後する場合があります。</p>
+          </li>
+          <li class="guide-card">
+            <span class="guide-icon" aria-hidden="true">💴</span>
+            <h3>送料</h3>
+            <p>お届け先の地域により異なります。<a href="#" data-link="delivery">送料・配送方法</a></p>
+          </li>
+          <li class="guide-card">
+            <span class="guide-icon" aria-hidden="true">💳</span>
+            <h3>お支払い</h3>
+            <p>ご利用いただける方法は<a href="#" data-link="payment">お支払い方法</a>をご確認ください。</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="contact">
+    <div class="wrap footer-cols">
+      <div class="footer-brand">
+        <a class="logo logo-invert" href="./">
+          <span class="logo-mark" aria-hidden="true">結</span>
+          <span class="logo-text"><span class="logo-sub">やまなしだもの</span><span class="logo-main">musubi</span></span>
+        </a>
+        <p>山梨のくだものを、産地から食卓へ。</p>
+        <a class="btn btn-light" href="#" data-link="inquiry">お問い合わせ</a>
+      </div>
+      <div>
+        <h3>商品を探す</h3>
+        <ul id="footer-cats"></ul>
+      </div>
+      <div>
+        <h3>ご利用ガイド</h3>
+        <ul>
+          <li><a href="#guide">ご注文の流れ</a></li>
+          <li><a href="#" data-link="delivery">送料・配送方法</a></li>
+          <li><a href="#" data-link="payment">お支払い方法</a></li>
+          <li><a href="#season">旬のカレンダー</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>このお店について</h3>
+        <ul>
+          <li><a href="#about">結について</a></li>
+          <li><a href="#news">お知らせ</a></li>
+          <li><a href="#" data-link="law">特定商取引法に基づく表記</a></li>
+          <li><a href="#" data-link="privacy">プライバシーポリシー</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="copy">&copy; <span id="year"></span> やまなしだもの 結 musubi</p>
+  </footer>
+
+  <!-- スマホ用ボトムナビ -->
+  <nav class="bottom-nav" aria-label="クイックメニュー">
+    <a href="./"><span aria-hidden="true">🏠</span>ホーム</a>
+    <a href="#all"><span aria-hidden="true">🧺</span>商品</a>
+    <a href="#search-input" id="bn-search"><span aria-hidden="true">🔍</span>検索</a>
+    <a href="#" data-link="cart"><span aria-hidden="true">🛒</span>カート</a>
+  </nav>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
