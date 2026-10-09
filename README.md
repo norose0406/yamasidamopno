@@ -30,3 +30,29 @@ extension/
 ├── sidepanel.js     # タブ情報の取得と表示
 └── icons/
 ```
+
+---
+
+# やまなしだもの 結 -musubi- リニューアルサイト
+
+`site/` に、mb-musubi.net を作り直した静的サイト（HTML / CSS / JS のみ、ビルド不要）があります。
+`site/index.html` をブラウザで開くとそのまま確認できます。
+
+```
+site/
+├── index.html           # ページ本体（文言はここを直接編集）
+└── assets/
+    ├── css/style.css    # デザイン（色やフォントは先頭の :root で一括変更）
+    └── js/main.js       # 商品データ・営業日カレンダー・動き
+```
+
+## よく触るところ
+
+- **商品の追加・変更**: `assets/js/main.js` 冒頭の `PRODUCTS` 配列を編集します
+  - `image` に写真のパス（例: `assets/img/shine-muscat.jpg`）を入れると、イラストの代わりに写真が表示されます
+  - `price` に税込価格、`url` にショップの商品ページ URL を入れます
+  - `soldout: true` で SOLD OUT 表示になります
+- **定休日**: `main.js` の `CLOSED_WEEKDAYS`（曜日）と `CLOSED_DATES`（臨時休業日）
+- **お知らせ**: `index.html` の `news-list`
+
+※ お知らせ・ご利用ガイド・商品説明の文言は仮のものです。公開前に現行サイトの内容に差し替えてください。
