@@ -49,10 +49,11 @@ site/
 ## よく触るところ
 
 - **商品の追加・変更**: `assets/js/main.js` 冒頭の `PRODUCTS` 配列を編集します
-  - `image` に写真のパス（例: `assets/img/shine-muscat.jpg`）を入れると、イラストの代わりに写真が表示されます
+  - `image` に写真のパス（例: `assets/img/shine-muscat.jpg`）を入れると、色の球体の代わりに写真が表示されます
+  - `tone` は写真が無いときの球体の色、`season` は発送月（「旬の暦」に自動で反映されます）
   - `price` に税込価格、`url` にショップの商品ページ URL を入れます
   - `soldout: true` で SOLD OUT 表示になります
 - **定休日**: `main.js` の `CLOSED_WEEKDAYS`（曜日）と `CLOSED_DATES`（臨時休業日）
 - **お知らせ**: `index.html` の `news-list`
 
-※ お知らせ・ご利用ガイド・商品説明の文言は仮のものです。公開前に現行サイトの内容に差し替えてください。
+※ お知らせ・ご利用ガイドの文言、旬の暦の発送月は仮のものです。公開前に現行サイトの内容に差し替えてください。
