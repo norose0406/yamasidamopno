@@ -11,14 +11,14 @@
    - url    : ショップの商品ページ URL
    ---------------------------------------------------------- */
 const PRODUCTS = [
-  { cat: "grape", tone: "green", name: "シャインマスカット", en: "Shine Muscat", flag: "予約受付中", season: [8, 9, 10], price: null, url: "#", image: null },
-  { cat: "grape", tone: "mix", name: "シャインマスカット＆巨峰", en: "Assortment", flag: "Gift", season: [8, 9], price: null, url: "#", image: null },
-  { cat: "grape", tone: "black", name: "巨峰", en: "Kyoho", flag: null, season: [8, 9], price: null, url: "#", image: null },
-  { cat: "grape", tone: "wine", name: "シャトウ・ルージュ", en: "Chateau Rouge", flag: "New", season: [8, 9], price: null, url: "#", image: null },
-  { cat: "kiwi", tone: "kiwi", name: "キウイ ヘイワード", en: "Hayward", flag: null, season: [11, 12, 1], price: null, url: "#", image: null },
-  { cat: "kiwi", tone: "kiwi", name: "キウイ 香緑", en: "Koryoku", flag: null, season: [11, 12], price: null, url: "#", image: null },
-  { cat: "kiwi", tone: "gold", name: "キウイ グレイシー", en: "Gracie", flag: null, season: [11, 12], price: null, url: "#", image: null },
-  { cat: "corn", tone: "corn", name: "朝採りとうもろこし", en: "Sweet Corn", flag: null, season: [6, 7], price: null, url: "#", image: null, soldout: true },
+  { cat: "kiwi", tone: "kiwi", name: "やまなしの雫 ヘイワード", en: "Kiwi — Hayward", note: "選ばれ続ける定番キウイ", flag: "予約受付中", season: [11, 12], price: null, url: "#", image: "assets/img/kiwi-hayward.webp" },
+  { cat: "kiwi", tone: "kiwi", name: "やまなしの雫 香緑", en: "Kiwi — Koryoku", note: "15セット限定の特別なキウイ", flag: "15セット限定", season: [11, 12], price: null, url: "#", image: "assets/img/kiwi-koryoku.webp" },
+  { cat: "kiwi", tone: "gold", name: "キウイ グレイシー", en: "Kiwi — Gracie", note: "まろやかな甘さの希少品種", flag: null, season: [11, 12], price: null, url: "#", image: null },
+  { cat: "grape", tone: "green", name: "シャインマスカット", en: "Shine Muscat", note: "皮ごと食べられます", flag: "人気 No.1", season: [8, 9, 10], price: null, url: "#", image: "assets/img/shine-muscat.webp" },
+  { cat: "grape", tone: "black", name: "巨峰", en: "Kyoho", note: "濃厚な甘みと豊かな果汁", flag: null, season: [8, 9], price: null, url: "#", image: "assets/img/kyoho.webp" },
+  { cat: "grape", tone: "mix", name: "シャインマスカット＆巨峰", en: "Grape Assortment", note: "人気の2品種を食べ比べ", flag: "Gift", season: [8, 9], price: null, url: "#", image: "assets/img/assort.webp" },
+  { cat: "grape", tone: "wine", name: "シャトウ・ルージュ", en: "Chateau Rouge", note: "パリッとした歯触りとジューシーな甘さ", flag: null, season: [8, 9], price: null, url: "#", image: null },
+  { cat: "corn", tone: "corn", name: "やまなしの恵 甘々娘", en: "Sweet Corn — Kanmusume", note: "朝採れ・新鮮", flag: null, season: [6, 7], price: null, url: "#", image: "assets/img/corn.webp", soldout: true },
 ];
 
 /* 営業日カレンダーの定休日（0=日 1=月 … 6=土）と臨時休業日 */
@@ -38,7 +38,7 @@ grid.innerHTML = PRODUCTS.map((p, i) => {
   const media = p.image
     ? `<img src="${p.image}" alt="${p.name}" loading="lazy">`
     : `<span class="sphere s-${p.tone}" aria-hidden="true"></span>`;
-  const flag = p.soldout ? "Sold out" : p.flag || "";
+  const flag = p.soldout ? "Season off" : p.flag || "";
   const price = p.price != null ? `¥${p.price.toLocaleString("ja-JP")}` : CAT_EN[p.cat];
   return `<li class="product reveal${p.soldout ? " is-soldout" : ""}" data-cat="${p.cat}">
     <a href="${p.url}">
@@ -46,6 +46,7 @@ grid.innerHTML = PRODUCTS.map((p, i) => {
       <div class="p-media">${media}</div>
       <h3 class="p-name">${p.name}</h3>
       <p class="p-en">${p.en}</p>
+      ${p.note ? `<p class="p-note">${p.note}</p>` : ""}
       <div class="p-foot"><span class="p-price">${price}</span><span class="p-go">→</span></div>
     </a>
   </li>`;
@@ -76,8 +77,8 @@ let rows = `<div class="h-row h-head"><span></span>${MONTHS.map((m, i) =>
 
 const seen = new Set();
 PRODUCTS.forEach((p) => {
-  if (seen.has(p.en) || p.tone === "mix") return;
-  seen.add(p.en);
+  if (seen.has(p.name) || p.tone === "mix") return;
+  seen.add(p.name);
   const cells = MONTHS.map((_, i) => {
     const m = i + 1;
     const on = p.season.includes(m);
