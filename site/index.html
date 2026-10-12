@@ -8,270 +8,246 @@
   <meta property="og:title" content="やまなしだもの 結 -musubi-">
   <meta property="og:description" content="農業の未来へ、種を撒こう。山梨の旬を、畑からまっすぐ食卓へ。">
   <meta property="og:type" content="website">
-  <meta name="theme-color" content="#141210">
+  <meta name="theme-color" content="#f7f4ee">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&family=Shippori+Mincho+B1:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Shippori+Mincho+B1:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
+  <!-- ===================== Top bar ===================== -->
+  <div class="topbar">
+    <div class="wrap topbar-inner">
+      <p>山梨県から産地直送 ／ ご注文は24時間受け付けています</p>
+      <ul>
+        <li><a href="#">ログイン</a></li>
+        <li><a href="#">マイページ</a></li>
+        <li><a href="#guide">ご利用ガイド</a></li>
+      </ul>
+    </div>
+  </div>
+
   <!-- ===================== Header ===================== -->
   <header class="site-header" id="top">
-    <a class="wordmark" href="#top" aria-label="やまなしだもの 結 トップへ">
-      <span class="wm-kanji">結</span>
-      <span class="wm-latin">musubi</span>
-    </a>
-    <nav class="global-nav" aria-label="メインメニュー">
-      <ol>
-        <li><a href="#season"><i>01</i>旬</a></li>
-        <li><a href="#products"><i>02</i>商品</a></li>
-        <li><a href="#calendar-harvest"><i>03</i>旬の暦</a></li>
-        <li><a href="#about"><i>04</i>結について</a></li>
-        <li><a href="#news"><i>05</i>お知らせ</a></li>
-        <li><a href="#guide"><i>06</i>ご利用ガイド</a></li>
-      </ol>
-    </nav>
-    <div class="header-actions">
-      <a class="h-link" href="#contact">Contact</a>
-      <a class="h-link cart" href="#">Cart<span class="cart-count">0</span></a>
-      <button class="menu-toggle" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span></button>
+    <div class="wrap header-inner">
+      <a class="logo" href="#top" aria-label="やまなしだもの 結 トップへ">
+        <span class="logo-mark">結</span>
+        <span class="logo-text">
+          <small>やまなしだもの</small>
+          <b>musubi</b>
+        </span>
+      </a>
+      <p class="tagline">農業の未来へ、種を撒こう。</p>
+      <div class="header-tools">
+        <form class="search" role="search" onsubmit="return false">
+          <input type="search" placeholder="商品をさがす" aria-label="商品をさがす">
+          <button type="submit" aria-label="検索">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="M16 16l4.5 4.5" /></svg>
+          </button>
+        </form>
+        <a class="cart" href="#" aria-label="カートを見る">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14l-1.4 12H6.4z M9 7a3 3 0 0 1 6 0" /></svg>
+          <span class="cart-count">0</span>
+        </a>
+        <button class="menu-toggle" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
     </div>
+
+    <nav class="global-nav" aria-label="メインメニュー">
+      <ul class="wrap">
+        <li><a href="#top">ホーム</a></li>
+        <li><a href="#recommend">おすすめ商品</a></li>
+        <li><a href="#" data-filter="grape">ぶどう</a></li>
+        <li><a href="#" data-filter="kiwi">キウイフルーツ</a></li>
+        <li><a href="#" data-filter="corn">とうもろこし</a></li>
+        <li><a href="#news">お知らせ</a></li>
+        <li><a href="#guide">ご利用ガイド</a></li>
+        <li><a href="#contact">お問い合わせ</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <main>
+  <!-- ===================== Slider ===================== -->
+  <section class="hero wrap" aria-roledescription="carousel" aria-label="特集">
+    <div class="slides" id="slides">
 
-    <!-- ===================== Hero ===================== -->
-    <section class="hero">
-      <div class="hero-meta">
-        <p>Yamanashi, Japan</p>
-        <p>35.66°N / 138.57°E</p>
-        <p>Fruits direct from the Kofu basin</p>
-      </div>
+      <article class="slide is-active">
+        <div class="slide-text">
+          <p class="slide-tag">予約受付中 ／ 11月下旬頃〜発送</p>
+          <h2>大玉完熟<br>やまなしの雫</h2>
+          <p class="slide-en">Yamanashi no Shizuku</p>
+          <p class="slide-lead">選ばれ続ける定番「ヘイワード」と、<br>15セット限定の特別なキウイ「香緑」。</p>
+          <a class="btn" href="#" data-filter="kiwi">キウイを見る</a>
+        </div>
+        <div class="slide-photo"><img src="assets/img/kiwi-season.webp" alt="やまなしの雫 キウイフルーツ" width="780" height="944"></div>
+      </article>
 
-      <h1 class="hero-copy" aria-label="農業の未来へ、種を撒こう。">
-        <span>農業の未来へ、</span>
-        <span>種を撒こう。</span>
-      </h1>
+      <article class="slide">
+        <div class="slide-text">
+          <p class="slide-tag">人気 No.1</p>
+          <h2>シャイン<br>マスカット</h2>
+          <p class="slide-en">Shine Muscat</p>
+          <p class="slide-lead">皮ごと食べられる、香り高い山梨の王道ぶどう。<br>大切な方への贈りものにも。</p>
+          <a class="btn" href="#" data-filter="grape">ぶどうを見る</a>
+        </div>
+        <div class="slide-photo"><img src="assets/img/shine-muscat.webp" alt="シャインマスカット" width="800" height="800" loading="lazy"></div>
+      </article>
 
-      <figure class="hero-orb">
-        <img src="assets/img/shine-muscat.webp" alt="山梨県産シャインマスカット" width="800" height="800">
-        <figcaption>Shine Muscat — No.1 Seller</figcaption>
-      </figure>
+      <article class="slide">
+        <div class="slide-text">
+          <p class="slide-tag">山梨県産 ／ 産地直送</p>
+          <h2>巨峰</h2>
+          <p class="slide-en">Kyoho</p>
+          <p class="slide-lead">濃厚な甘みと、あふれる果汁。<br>昔から愛され続ける、ぶどうの定番です。</p>
+          <a class="btn" href="#" data-filter="grape">ぶどうを見る</a>
+        </div>
+        <div class="slide-photo"><img src="assets/img/kyoho.webp" alt="巨峰" width="800" height="800" loading="lazy"></div>
+      </article>
 
-      <p class="hero-word" aria-hidden="true">Musubi</p>
-
-      <div class="hero-foot">
-        <p class="hero-lead">
-          盆地の寒暖差と、たっぷりの日差し。<br>
-          山梨の畑で育った旬のくだものを、<br>
-          農家から食卓へ、まっすぐに。
-        </p>
-        <a class="arrow-link light" href="#products">Shop the season</a>
-      </div>
-    </section>
-
-    <div class="ticker" aria-hidden="true">
-      <div class="ticker-track">
-        <span>やまなしの雫</span><span>Kiwifruit</span>
-        <span>シャインマスカット</span><span>Shine Muscat</span>
-        <span>巨峰</span><span>Kyoho</span>
-        <span>シャトウ・ルージュ</span><span>Chateau Rouge</span>
-        <span>やまなしの恵</span><span>Sweet Corn</span>
-        <span>やまなしの雫</span><span>Kiwifruit</span>
-        <span>シャインマスカット</span><span>Shine Muscat</span>
-        <span>巨峰</span><span>Kyoho</span>
-        <span>シャトウ・ルージュ</span><span>Chateau Rouge</span>
-        <span>やまなしの恵</span><span>Sweet Corn</span>
-      </div>
     </div>
+    <div class="slider-ui">
+      <button class="slider-arrow" data-dir="-1" aria-label="前のスライド">←</button>
+      <div class="dots" id="dots"></div>
+      <button class="slider-arrow" data-dir="1" aria-label="次のスライド">→</button>
+    </div>
+  </section>
 
-    <!-- ===================== 01 Season ===================== -->
-    <section class="block season" id="season">
-      <header class="block-head">
-        <p class="label"><i>01</i>In Season</p>
-        <h2 class="block-title">次の旬、予約受付中。</h2>
-      </header>
+  <!-- ===================== Body (sidebar + main) ===================== -->
+  <div class="wrap layout">
 
-      <div class="season-grid">
-        <figure class="season-photo">
-          <img src="assets/img/kiwi-season.webp" alt="やまなしの雫 キウイフルーツ" width="780" height="944" loading="lazy">
-          <figcaption>Kiwifruit — Hayward / Koryoku</figcaption>
-        </figure>
+    <main class="main">
 
-        <div class="season-body">
-          <p class="season-no">大玉完熟 ／ <b>Kiwifruit</b></p>
-          <h3 class="season-name">やまなし<br>の雫</h3>
-          <p class="season-en">Yamanashi no Shizuku</p>
-          <p class="season-catch">選ばれ続ける定番と、<br>15セット限定の特別なキウイ。</p>
-          <p class="season-text">
-            大玉に育ち、完熟の甘さを蓄えた山梨のキウイフルーツ。
-            定番の「ヘイワード」と、数量限定の「香緑」をご用意しました。
-          </p>
-          <dl class="spec">
-            <div><dt>品種</dt><dd>ヘイワード ／ 香緑（15セット限定）</dd></div>
-            <div><dt>栽培</dt><dd>栽培期農薬未使用 ／ ホルモン剤未使用</dd></div>
-            <div><dt>発送</dt><dd>11月下旬頃〜<small>天候等の事情により前後する場合がございます</small></dd></div>
-          </dl>
-          <a class="btn" href="#products"><span>予約する</span></a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== 02 Products ===================== -->
-    <section class="block products" id="products">
-      <header class="block-head split">
-        <div>
-          <p class="label"><i>02</i>Products</p>
-          <h2 class="block-title">商品一覧</h2>
-        </div>
-        <div class="filters" role="tablist" aria-label="商品の絞り込み">
-          <button class="filter is-active" data-filter="all">All<sup></sup></button>
-          <button class="filter" data-filter="grape">ぶどう<sup></sup></button>
-          <button class="filter" data-filter="kiwi">キウイ<sup></sup></button>
-          <button class="filter" data-filter="corn">とうもろこし<sup></sup></button>
-        </div>
-      </header>
-      <ul class="product-grid" id="product-grid"><!-- main.js で描画 --></ul>
-    </section>
-
-    <!-- ===================== 03 Harvest calendar ===================== -->
-    <section class="block harvest" id="calendar-harvest">
-      <header class="block-head split">
-        <div>
-          <p class="label"><i>03</i>Harvest Calendar</p>
-          <h2 class="block-title">旬の暦</h2>
-        </div>
-        <p class="block-note">山梨の畑から、いつ、何が届くのか。<br>おおよその発送時期の目安です。</p>
-      </header>
-      <div class="harvest-table" id="harvest"></div>
-    </section>
-
-    <!-- ===================== 04 About ===================== -->
-    <section class="about" id="about">
-      <div class="about-inner">
-        <p class="label light"><i>04</i>About</p>
-        <p class="about-statement">
-          一粒の美味しさが、<br>
-          次の世代の農業を<br>
-          支える<em>種</em>になる。
-        </p>
-        <div class="about-cols">
-          <p>
-            「やまなしだもの 結」は、山梨の農産物を全国へ届けるためのフルーツショップです。
-            手間を惜しまず育てられたくだものを、生産者の想いとともにお届けし、食べる人と畑をつなぐこと。
-            それが私たちの役割です。
-          </p>
-          <ol class="principles">
-            <li><i>i.</i><b>産地から直送</b><span>収穫したてを、畑から直接お届けします。</span></li>
-            <li><i>ii.</i><b>生産者が見える</b><span>誰が、どこで育てたかがわかる品だけを。</span></li>
-            <li><i>iii.</i><b>贈りものにも</b><span>大切な方へのギフトとしてもご利用ください。</span></li>
-          </ol>
-        </div>
-        <span class="about-kanji" aria-hidden="true">結</span>
-      </div>
-    </section>
-
-    <!-- ===================== 05 News + Calendar ===================== -->
-    <section class="block news-wrap" id="news">
-      <div class="news">
-        <header class="block-head">
-          <p class="label"><i>05</i>News</p>
-          <h2 class="block-title">お知らせ</h2>
+      <!-- お知らせ -->
+      <section class="panel" id="news">
+        <header class="sec-head">
+          <h2>お知らせ</h2>
+          <p class="sec-en">News</p>
         </header>
         <ul class="news-list">
           <!-- ▼ お知らせは現行サイトの内容に差し替えてください -->
-          <li><a href="#"><time datetime="2026-10-01">2026.10.01</time><span class="n-cat">予約</span><span class="n-title">キウイフルーツ「やまなしの雫」のご予約受付を開始しました。発送は11月下旬頃〜です。</span></a></li>
-          <li><a href="#"><time datetime="2026-08-20">2026.08.20</time><span class="n-cat">入荷</span><span class="n-title">シャトウ・ルージュのご予約受付を開始しました。</span></a></li>
-          <li><a href="#"><time datetime="2026-08-01">2026.08.01</time><span class="n-cat">お知らせ</span><span class="n-title">夏季休業期間中の発送について</span></a></li>
-          <li><a href="#"><time datetime="2026-07-15">2026.07.15</time><span class="n-cat">入荷</span><span class="n-title">シャインマスカットの予約販売がスタートしました。</span></a></li>
+          <li><time datetime="2026-10-01">2026.10.01</time><a href="#">キウイフルーツ「やまなしの雫」のご予約受付を開始しました。発送は11月下旬頃〜となります。</a></li>
+          <li><time datetime="2026-08-20">2026.08.20</time><a href="#">シャトウ・ルージュのご予約受付を開始しました。</a></li>
+          <li><time datetime="2026-08-01">2026.08.01</time><a href="#">夏季休業期間中の発送について</a></li>
+          <li><time datetime="2026-07-15">2026.07.15</time><a href="#">シャインマスカットの予約販売がスタートしました。</a></li>
+          <li><time datetime="2026-06-10">2026.06.10</time><a href="#">朝採りとうもろこし「やまなしの恵 甘々娘」の販売を開始しました。</a></li>
         </ul>
-      </div>
-      <aside class="biz-cal">
-        <header class="block-head">
-          <p class="label"><i>—</i>Calendar</p>
-          <h2 class="block-title sm">営業日</h2>
+      </section>
+
+      <!-- おすすめ商品 -->
+      <section class="panel" id="recommend">
+        <header class="sec-head">
+          <h2 id="recommend-title">おすすめ商品</h2>
+          <p class="sec-en">Recommend</p>
+          <button class="clear-filter" id="clear-filter" hidden>すべて表示 ×</button>
         </header>
+        <ul class="product-grid" id="grid-recommend"></ul>
+      </section>
+
+      <!-- 新着商品 -->
+      <section class="panel" id="new">
+        <header class="sec-head">
+          <h2>新着商品</h2>
+          <p class="sec-en">New Arrivals</p>
+        </header>
+        <ul class="product-grid" id="grid-new"></ul>
+      </section>
+
+      <!-- ランキング -->
+      <section class="panel" id="ranking">
+        <header class="sec-head">
+          <h2>ランキング</h2>
+          <p class="sec-en">Ranking</p>
+        </header>
+        <ul class="product-grid ranked" id="grid-ranking"></ul>
+      </section>
+
+    </main>
+
+    <aside class="sidebar">
+      <section class="side-box">
+        <h3 class="side-title">カテゴリーから探す</h3>
+        <ul class="cat-list" id="cat-list"></ul>
+      </section>
+
+      <section class="side-box">
+        <h3 class="side-title">今月の旬</h3>
+        <ul class="season-list" id="season-list"></ul>
+      </section>
+
+      <section class="side-box">
+        <h3 class="side-title">営業日カレンダー</h3>
         <div class="calendar" id="calendar"></div>
-        <p class="cal-legend"><span></span>定休日 ／ ご注文は24時間受付</p>
-      </aside>
-    </section>
+        <p class="cal-legend"><span></span>定休日（ご注文は24時間受付）</p>
+      </section>
 
-    <!-- ===================== 06 Guide ===================== -->
-    <section class="block guide" id="guide">
-      <header class="block-head">
-        <p class="label"><i>06</i>Guide</p>
-        <h2 class="block-title">ご利用ガイド</h2>
-      </header>
-      <div class="guide-grid">
-        <article>
-          <p class="g-no">— 01</p>
-          <h3>配送・送料</h3>
-          <p>ヤマト運輸のクール便にて、産地から直接お届けします。送料は地域により異なります。詳しくは各商品ページをご確認ください。</p>
-        </article>
-        <article>
-          <p class="g-no">— 02</p>
-          <h3>お支払い</h3>
-          <p>クレジットカード、コンビニ払い、代金引換、銀行振込をご利用いただけます。</p>
-        </article>
-        <article>
-          <p class="g-no">— 03</p>
-          <h3>返品・交換</h3>
-          <p>生鮮品のためお客様都合による返品はお受けできません。傷みなどがあった場合は、到着後すぐにご連絡ください。</p>
-        </article>
-      </div>
-    </section>
+      <section class="side-box shop-info">
+        <h3 class="side-title">ショップについて</h3>
+        <p class="shop-name">やまなしだもの 結<small>-musubi-</small></p>
+        <p>山梨の農産物を全国へ。手間を惜しまず育てられたくだものを、生産者の想いとともにお届けします。</p>
+        <a class="text-link" href="#contact">お問い合わせはこちら →</a>
+      </section>
+    </aside>
 
-    <!-- ===================== Contact ===================== -->
-    <section class="contact" id="contact">
-      <p class="label"><i>—</i>Contact</p>
-      <a class="contact-link" href="#">
-        <span class="c-ja">ご相談・お問い合わせ</span>
-        <span class="c-en">Get in touch<b aria-hidden="true">→</b></span>
-      </a>
-      <p class="contact-note">ギフトのご相談や大口のご注文も承ります。</p>
-    </section>
+  </div>
 
-  </main>
+  <!-- 最近チェックした商品 -->
+  <section class="wrap recent" id="recent" hidden>
+    <header class="sec-head">
+      <h2>最近チェックした商品</h2>
+      <p class="sec-en">Recently Viewed</p>
+    </header>
+    <ul class="recent-list" id="recent-list"></ul>
+  </section>
 
   <!-- ===================== Footer ===================== -->
-  <footer class="site-footer">
-    <div class="footer-top">
-      <p class="footer-copy">農業の未来へ、<br>種を撒こう。</p>
-      <nav class="footer-nav" aria-label="フッターメニュー">
-        <ul>
-          <li class="f-head">Shop</li>
-          <li><a href="#products">商品一覧</a></li>
-          <li><a href="#calendar-harvest">旬の暦</a></li>
-          <li><a href="#">カートを見る</a></li>
-          <li><a href="#">マイアカウント</a></li>
-        </ul>
-        <ul>
-          <li class="f-head">Information</li>
-          <li><a href="#about">結について</a></li>
+  <footer class="site-footer" id="guide">
+    <div class="wrap guide">
+      <article>
+        <h3>配送・送料について</h3>
+        <p>ヤマト運輸のクール便にて、産地から直接お届けします。送料は地域により異なります。詳しくは各商品ページをご確認ください。</p>
+      </article>
+      <article>
+        <h3>お支払い方法について</h3>
+        <p>クレジットカード、コンビニ払い、代金引換、銀行振込をご利用いただけます。</p>
+      </article>
+      <article>
+        <h3>返品について</h3>
+        <p>生鮮品のためお客様都合による返品はお受けできません。傷みなどがあった場合は、到着後すぐにご連絡ください。</p>
+      </article>
+    </div>
+
+    <div class="footer-main" id="contact">
+      <div class="wrap footer-inner">
+        <div class="footer-brand">
+          <a class="logo light" href="#top">
+            <span class="logo-mark">結</span>
+            <span class="logo-text"><small>やまなしだもの</small><b>musubi</b></span>
+          </a>
+          <p>農業の未来へ、種を撒こう。</p>
+          <ul class="sns">
+            <li><a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5" /><circle cx="12" cy="12" r="4" /></svg></a></li>
+            <li><a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z" /></svg></a></li>
+            <li><a href="#" aria-label="LINE"><svg viewBox="0 0 24 24"><path d="M12 4c5 0 9 3.1 9 7s-4 7-9 7c-.8 0-1.6-.1-2.3-.2L5 20l1-3.6C4.2 15.1 3 13.1 3 11c0-3.9 4-7 9-7z" /></svg></a></li>
+          </ul>
+        </div>
+        <ul class="footer-links">
+          <li><a href="#top">ホーム</a></li>
+          <li><a href="#recommend">商品一覧</a></li>
           <li><a href="#news">お知らせ</a></li>
           <li><a href="#guide">ご利用ガイド</a></li>
-          <li><a href="#contact">お問い合わせ</a></li>
-        </ul>
-        <ul>
-          <li class="f-head">Legal</li>
+          <li><a href="#">お問い合わせ</a></li>
           <li><a href="#">特定商取引法に基づく表記</a></li>
           <li><a href="#">プライバシーポリシー</a></li>
+          <li><a href="#">マイページ</a></li>
+          <li><a href="#">カートを見る</a></li>
         </ul>
-        <ul>
-          <li class="f-head">Follow</li>
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">Facebook</a></li>
-          <li><a href="#">LINE</a></li>
-        </ul>
-      </nav>
-    </div>
-    <p class="footer-mark" aria-hidden="true"><span>結</span>musubi</p>
-    <div class="footer-bottom">
-      <p>&copy; <span id="year"></span> やまなしだもの 結 -musubi-</p>
-      <a href="#top">Back to top ↑</a>
+      </div>
+      <p class="copyright">&copy; <span id="year"></span> やまなしだもの 結 -musubi-</p>
     </div>
   </footer>
+
+  <a class="to-top" href="#top" aria-label="ページの先頭へ">↑</a>
 
   <script src="assets/js/main.js"></script>
 </body>
