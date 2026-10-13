@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>甲斐のくだもの便｜山梨のフルーツ産地直送</title>
+  <meta name="description" content="山梨県の農園から、桃・ぶどう・すもも・さくらんぼ・ころ柿を産地直送でお届けする通販サイトです。">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#products">商品一覧へスキップ</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="#top" aria-label="甲斐のくだもの便 トップへ">
+        <span class="logo-mark" aria-hidden="true">🍑</span>
+        <span class="logo-text">甲斐のくだもの便<small>山梨フルーツ産地直送</small></span>
+      </a>
+      <nav class="header-nav" aria-label="メインメニュー">
+        <a href="#products">商品一覧</a>
+        <a href="#calendar">旬カレンダー</a>
+        <a href="#guide">ご利用ガイド</a>
+      </nav>
+      <button class="cart-button" id="open-cart" type="button" aria-label="カートを開く">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.4 10.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 1.9-1.4L21 8H6.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="20" r="1.5" fill="currentColor"/><circle cx="17" cy="20" r="1.5" fill="currentColor"/></svg>
+        <span>カート</span>
+        <span class="cart-count" id="cart-count" aria-live="polite">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-text">
+          <p class="hero-eyebrow">日本一の果樹王国・山梨から</p>
+          <h1>朝もぎの旬を、<br>そのまま食卓へ。</h1>
+          <p class="hero-lead">桃・ぶどう・すももの生産量日本一を誇る山梨県。盆地の寒暖差が育てた甘い果物を、契約農園から産地直送でお届けします。</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#products">商品を見る</a>
+            <a class="btn btn-ghost" href="#calendar">旬カレンダー</a>
+          </div>
+          <ul class="hero-points">
+            <li><strong>¥10,000以上</strong>で送料無料</li>
+            <li>収穫翌日に<strong>発送</strong></li>
+            <li><strong>のし・ギフト包装</strong>対応</li>
+          </ul>
+        </div>
+        <div class="hero-art" id="hero-art" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <section class="section" id="products" aria-labelledby="products-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="products-title">商品一覧</h2>
+          <p class="section-note" id="season-note"></p>
+        </div>
+
+        <div class="toolbar">
+          <div class="chips" id="category-filter" role="group" aria-label="カテゴリで絞り込む"></div>
+          <div class="toolbar-right">
+            <label class="search">
+              <span class="visually-hidden">商品を検索</span>
+              <input type="search" id="search" placeholder="商品名・産地で検索" autocomplete="off">
+            </label>
+            <label class="checkbox">
+              <input type="checkbox" id="in-season-only">
+              <span>今すぐ届く商品のみ</span>
+            </label>
+            <label class="select">
+              <span class="visually-hidden">並び替え</span>
+              <select id="sort">
+                <option value="recommended">おすすめ順</option>
+                <option value="price-asc">価格が安い順</option>
+                <option value="price-desc">価格が高い順</option>
+                <option value="season">旬が近い順</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <p class="result-count" id="result-count" aria-live="polite"></p>
+        <ul class="product-grid" id="product-grid"></ul>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="calendar" aria-labelledby="calendar-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="calendar-title">旬カレンダー</h2>
+          <p class="section-note">旬の時期以外は「予約受付中」となり、シーズンが来たら収穫順に発送します。</p>
+        </div>
+        <div class="calendar-wrap">
+          <table class="calendar" id="season-calendar"></table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="guide" aria-labelledby="guide-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="guide-title">ご利用ガイド</h2>
+        </div>
+        <div class="guide-grid">
+          <article class="guide-card">
+            <h3>送料</h3>
+            <p>全国一律 <strong id="guide-shipping"></strong>。ご注文金額 <strong id="guide-free"></strong> 以上で送料無料です。桃・すもも・さくらんぼなど鮮度が大切な商品はクール便（+<span id="guide-cool"></span>）でお届けします。</p>
+          </article>
+          <article class="guide-card">
+            <h3>お届け</h3>
+            <p>販売中の商品は、ご注文から3日後以降でお届け日を指定できます。予約商品は旬の時期に入り次第、収穫状況にあわせて順次発送します。</p>
+          </article>
+          <article class="guide-card">
+            <h3>お支払い</h3>
+            <p>代金引換（手数料 <span id="guide-cod"></span>）、銀行振込（前払い）、コンビニ後払いからお選びいただけます。</p>
+          </article>
+          <article class="guide-card">
+            <h3>ギフト</h3>
+            <p>のし・ギフト包装（<span id="guide-gift"></span>）を承ります。お中元・お歳暮・内祝いにどうぞ。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>甲斐のくだもの便 — 山梨県の契約農園から産地直送</p>
+      <p class="footer-note">※ このサイトはデモです。実際の注文・決済は行われません。</p>
+    </div>
+  </footer>
+
+  <!-- 商品詳細 -->
+  <dialog class="modal" id="product-dialog" aria-labelledby="product-dialog-title">
+    <div class="modal-body" id="product-dialog-body"></div>
+  </dialog>
+
+  <!-- カート -->
+  <dialog class="drawer" id="cart-dialog" aria-labelledby="cart-title">
+    <div class="drawer-inner">
+      <div class="drawer-head">
+        <h2 id="cart-title">カート</h2>
+        <button class="icon-button" type="button" data-close aria-label="カートを閉じる">×</button>
+      </div>
+      <div class="drawer-content" id="cart-content"></div>
+    </div>
+  </dialog>
+
+  <!-- ご注文手続き -->
+  <dialog class="modal modal-wide" id="checkout-dialog" aria-labelledby="checkout-title">
+    <form class="modal-body checkout" id="checkout-form" novalidate>
+      <div class="modal-head">
+        <h2 id="checkout-title">ご注文手続き</h2>
+        <button class="icon-button" type="button" data-close aria-label="閉じる">×</button>
+      </div>
+
+      <div class="checkout-grid">
+        <div class="checkout-fields">
+          <fieldset>
+            <legend>お届け先</legend>
+            <div class="field-row">
+              <div class="field">
+                <label for="f-name">お名前 <span class="req">必須</span></label>
+                <input id="f-name" name="name" autocomplete="name" placeholder="山梨 花子">
+                <p class="error" data-error-for="name"></p>
+              </div>
+              <div class="field">
+                <label for="f-kana">フリガナ <span class="req">必須</span></label>
+                <input id="f-kana" name="kana" placeholder="ヤマナシ ハナコ">
+                <p class="error" data-error-for="kana"></p>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field field-small">
+                <label for="f-postal">郵便番号 <span class="req">必須</span></label>
+                <input id="f-postal" name="postal" autocomplete="postal-code" inputmode="numeric" placeholder="400-0031">
+                <p class="error" data-error-for="postal"></p>
+              </div>
+              <div class="field field-small">
+                <label for="f-prefecture">都道府県 <span class="req">必須</span></label>
+                <select id="f-prefecture" name="prefecture" autocomplete="address-level1"></select>
+                <p class="error" data-error-for="prefecture"></p>
+              </div>
+            </div>
+            <div class="field">
+              <label for="f-address">市区町村・番地・建物名 <span class="req">必須</span></label>
+              <input id="f-address" name="address" autocomplete="street-address" placeholder="甲府市丸の内1-1-1">
+              <p class="error" data-error-for="address"></p>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="f-phone">電話番号 <span class="req">必須</span></label>
+                <input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="055-000-0000">
+                <p class="error" data-error-for="phone"></p>
+              </div>
+              <div class="field">
+                <label for="f-email">メールアドレス <span class="req">必須</span></label>
+                <input id="f-email" name="email" type="email" autocomplete="email" placeholder="hanako@example.com">
+                <p class="error" data-error-for="email"></p>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>お届け日時</legend>
+            <div class="field-row">
+              <div class="field">
+                <label for="f-date">お届け日</label>
+                <input id="f-date" name="deliveryDate" type="date">
+                <p class="hint" id="date-hint"></p>
+                <p class="error" data-error-for="deliveryDate"></p>
+              </div>
+              <div class="field">
+                <label for="f-time">時間帯</label>
+                <select id="f-time" name="timeSlot"></select>
+                <p class="error" data-error-for="timeSlot"></p>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>お支払い方法 <span class="req">必須</span></legend>
+            <div class="radio-list" id="payment-options"></div>
+            <p class="error" data-error-for="payment"></p>
+          </fieldset>
+
+          <fieldset>
+            <legend>ギフト・備考</legend>
+            <label class="checkbox">
+              <input type="checkbox" name="giftWrap" id="f-gift">
+              <span>のし・ギフト包装をつける（+<span id="gift-fee"></span>）</span>
+            </label>
+            <div class="field">
+              <label for="f-note">備考</label>
+              <textarea id="f-note" name="note" rows="3" placeholder="のしの表書き（御中元など）やご要望があればご記入ください"></textarea>
+            </div>
+          </fieldset>
+        </div>
+
+        <aside class="checkout-summary" aria-label="ご注文内容">
+          <h3>ご注文内容</h3>
+          <div id="checkout-summary"></div>
+          <button class="btn btn-primary btn-block" type="submit">注文を確定する</button>
+          <p class="footer-note">※ デモのため実際の注文は行われません。</p>
+        </aside>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- 注文完了 -->
+  <dialog class="modal" id="complete-dialog" aria-labelledby="complete-title">
+    <div class="modal-body complete" id="complete-body"></div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/products.js"></script>
+  <script src="js/shop.js"></script>
+  <script src="js/illustrations.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

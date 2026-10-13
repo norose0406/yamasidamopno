@@ -30,3 +30,9 @@ extension/
 ├── sidepanel.js     # タブ情報の取得と表示
 └── icons/
 ```
+
+---
+
+# 甲斐のくだもの便（山梨フルーツECサイト）
+
+`fruit-shop/` に、山梨県産フルーツを販売するECサイトのデモがあります。`fruit-shop/index.html` をブラウザで開くと動きます。詳しくは [fruit-shop/README.md](fruit-shop/README.md) を見てください。
