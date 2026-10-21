@@ -312,7 +312,7 @@
   }
 
   function renderAbout() {
-    $('#about-photos').innerHTML = [['shine', 1], ['hayward', 0], ['kanikanmusume', 1]]
+    $('#about-photos').innerHTML = [['shine', 0], ['hayward', 0], ['kanikanmusume', 1]]
       .map(([id, index]) => '<div class="about-photo">' + visual(byId.get(id), 'about', index) + '</div>')
       .join('');
   }

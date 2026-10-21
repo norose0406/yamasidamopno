@@ -23,7 +23,9 @@
       cool: false,
       badge: '人気No.1',
       pid: 169364212,
-      photos: photos(169364212, 2),
+      // メイン写真はお店から提供された画像（バッジ入りなので全体を表示）
+      bannerPhoto: true,
+      photos: ['images/products/shine.jpg'].concat(photos(169364212, 2)),
       art: { type: 'grape', colors: ['#d9f0a3', '#8fbf3f'] },
       variants: [{ id: '2kg', label: '2kg程度（2〜4房）', price: 7020, stock: 99 }],
       description:
@@ -38,7 +40,8 @@
       shipping: '8月下旬頃〜',
       cool: false,
       pid: 169870014,
-      photos: photos(169870014, 2),
+      // メイン写真はお店から提供された画像
+      photos: ['images/products/kyoho.jpg'].concat(photos(169870014, 2)),
       art: { type: 'grape', colors: ['#7b5ea7', '#3b2462'] },
       variants: [{ id: '2kg', label: '2kg程度（2〜4房）', price: 6480, stock: 99 }],
       description:
@@ -53,7 +56,8 @@
       shipping: '8月下旬頃〜',
       cool: false,
       pid: 188022084,
-      photos: photos(188022084, 2),
+      // メイン写真はお店から提供された画像
+      photos: ['images/products/shinano-smile.jpg'].concat(photos(188022084, 2)),
       art: { type: 'grape', colors: ['#f08a8a', '#b8323f'] },
       variants: [{ id: '2kg', label: '2kg程度（2〜4房）', price: 6480, stock: 99 }],
       description:
@@ -70,7 +74,9 @@
       cool: false,
       badge: '30個限定',
       pid: 188038303,
-      photos: photos(188038303, 1),
+      // メイン写真はお店から提供された画像（バッジ入りなので全体を表示）
+      bannerPhoto: true,
+      photos: ['images/products/set-kaiking.jpg'].concat(photos(188038303, 1)),
       art: { type: 'grape', colors: ['#7b5ea7', '#3b2462'] },
       variants: [{ id: 'set', label: '詰め合わせ（緑＋黒系）', price: 7020, stock: 30 }],
       description:
