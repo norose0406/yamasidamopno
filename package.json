@@ -4,6 +4,7 @@
   "description": "やまなしだもの 結 musubi（山梨フルーツECサイトのデモ）と Chrome View 拡張機能",
   "scripts": {
     "start": "node fruit-shop/server.js",
+    "build": "node fruit-shop/scripts/build.js",
     "test": "node --test fruit-shop/tests/shop.test.js"
   },
   "engines": {

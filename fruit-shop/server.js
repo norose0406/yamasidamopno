@@ -30,7 +30,7 @@ const server = http.createServer((req, res) => {
   if (pathname.endsWith('/')) pathname += 'index.html';
   const file = path.join(ROOT, pathname);
   // fruit-shop フォルダの外や、サーバー・テスト用のファイルは返さない
-  if (!file.startsWith(ROOT + path.sep) || file === __filename || file.includes(path.sep + 'tests' + path.sep)) {
+  if (!file.startsWith(ROOT + path.sep) || file === __filename || file.includes(path.sep + 'tests' + path.sep) || file.includes(path.sep + 'scripts' + path.sep)) {
     res.writeHead(404).end('Not Found');
     return;
   }

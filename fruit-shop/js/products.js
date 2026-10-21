@@ -1,9 +1,14 @@
 // 商品データ（やまなしだもの 結 musubi の取り扱い商品をもとにしたデモ用データ）。
 // 価格はすべて税込。season は旬の月（from〜to）。11月〜2月のように年をまたぐ場合は from > to になる。
-// variants はサイズ違い（2kg / 4kg、3パック / 6パック など）。stock が 0 なら売り切れ。
+// pid は mb-musubi.net（カラーミーショップ）の商品番号。photos の1枚目がメイン写真。variants はサイズ違い（2kg / 4kg、3パック / 6パック など）。stock が 0 なら売り切れ。
 (function (root) {
   const PHOTO_BASE = 'https://img21.shop-pro.jp/PA01487/307/';
-  const photo = (id) => PHOTO_BASE + 'product/' + id + '.jpg';
+  // 商品写真（メイン＋サブ写真 _o1, _o2 ...）
+  const photos = (id, extra) => {
+    const list = [PHOTO_BASE + 'product/' + id + '.jpg'];
+    for (let i = 1; i <= extra; i++) list.push(PHOTO_BASE + 'product/' + id + '_o' + i + '.jpg');
+    return list;
+  };
 
   const PRODUCTS = [
     // ---- ぶどう ----
@@ -16,7 +21,8 @@
       shipping: '8月下旬頃〜',
       cool: false,
       badge: '人気No.1',
-      photo: photo(169364212),
+      pid: 169364212,
+      photos: photos(169364212, 2),
       art: { type: 'grape', colors: ['#d9f0a3', '#8fbf3f'] },
       variants: [{ id: '2kg', label: '2kg程度（2〜4房）', price: 7020, stock: 99 }],
       description:
@@ -30,7 +36,8 @@
       season: { from: 8, to: 10 },
       shipping: '8月下旬頃〜',
       cool: false,
-      photo: photo(169870014),
+      pid: 169870014,
+      photos: photos(169870014, 2),
       art: { type: 'grape', colors: ['#7b5ea7', '#3b2462'] },
       variants: [{ id: '2kg', label: '2kg程度（2〜4房）', price: 6480, stock: 99 }],
       description:
@@ -44,7 +51,8 @@
       season: { from: 8, to: 10 },
       shipping: '8月下旬頃〜',
       cool: false,
-      photo: photo(188022084),
+      pid: 188022084,
+      photos: photos(188022084, 2),
       art: { type: 'grape', colors: ['#f08a8a', '#b8323f'] },
       variants: [{ id: '2kg', label: '2kg程度（2〜4房）', price: 6480, stock: 99 }],
       description:
@@ -60,7 +68,8 @@
       shipping: '8月下旬頃〜',
       cool: false,
       badge: '30個限定',
-      photo: photo(188038303),
+      pid: 188038303,
+      photos: photos(188038303, 1),
       art: { type: 'grape', colors: ['#7b5ea7', '#3b2462'] },
       variants: [{ id: 'set', label: '詰め合わせ（緑＋黒系）', price: 7020, stock: 30 }],
       description:
@@ -75,7 +84,8 @@
       shipping: '8月下旬頃〜',
       cool: false,
       badge: '30個限定',
-      photo: photo(188038244),
+      pid: 188038244,
+      photos: photos(188038244, 1),
       art: { type: 'grape', colors: ['#f08a8a', '#b8323f'] },
       variants: [{ id: 'set', label: '詰め合わせ（緑＋赤系）', price: 7020, stock: 0 }],
       description:
@@ -90,7 +100,8 @@
       shipping: '8月下旬頃〜',
       cool: false,
       badge: '30個限定',
-      photo: photo(176325613),
+      pid: 176325613,
+      photos: photos(176325613, 0),
       art: { type: 'grape', colors: ['#d9f0a3', '#8fbf3f'] },
       variants: [{ id: '2kg', label: '2kg程度（2〜5房）', price: 5670, stock: 0 }],
       description: '高品質なシャインマスカット（種なし）と、希少品種シナノスマイル（赤系）の詰め合わせです。',
@@ -105,7 +116,8 @@
       shipping: '11月下旬頃〜',
       cool: false,
       badge: '定番人気',
-      photo: photo(178016830),
+      pid: 178016830,
+      photos: photos(178016830, 6),
       art: { type: 'kiwi', colors: ['#c9e265', '#6f9a1e'] },
       variants: [
         { id: '3p', label: '3パック（1パック4〜6個・500g前後）', price: 2700, stock: 99 },
@@ -123,7 +135,8 @@
       shipping: '11月下旬頃〜',
       cool: false,
       badge: '希少品種',
-      photo: photo(188655122),
+      pid: 188655122,
+      photos: photos(188655122, 2),
       art: { type: 'kiwi', colors: ['#a8d94a', '#3f7d16'] },
       variants: [
         { id: '3p', label: '3パック（1パック4〜5個・500g前後）', price: 3564, stock: 99 },
@@ -140,7 +153,8 @@
       season: { from: 11, to: 2 },
       shipping: '11月下旬頃〜',
       cool: false,
-      photo: photo(189924618),
+      pid: 189924618,
+      photos: photos(189924618, 1),
       art: { type: 'kiwi', colors: ['#d6ea7a', '#86a92b'] },
       variants: [
         { id: '3p', label: '3パック（1パック4〜5個・500g前後）', price: 1890, stock: 99 },
@@ -159,7 +173,8 @@
       shipping: '6月上旬〜6月25日頃',
       cool: true,
       badge: '朝採り',
-      photo: photo(174377888),
+      pid: 174377888,
+      photos: photos(174377888, 3),
       art: { type: 'corn', colors: ['#ffe680', '#f2b705'] },
       variants: [
         { id: '2kg', label: '約2kg（5〜8本）', price: 3240, stock: 0 },
@@ -177,7 +192,8 @@
       shipping: '6月中旬頃〜',
       cool: true,
       badge: '糖度18〜20度',
-      photo: photo(180699340),
+      pid: 180699340,
+      photos: photos(180699340, 2),
       art: { type: 'corn', colors: ['#fff09a', '#e8b10c'] },
       variants: [
         { id: '2kg', label: '約2kg（5〜6本）', price: 2970, stock: 0 },
@@ -194,7 +210,8 @@
       season: { from: 6, to: 6 },
       shipping: '6月中旬頃〜',
       cool: true,
-      photo: photo(191479899),
+      pid: 191479899,
+      photos: photos(191479899, 3),
       art: { type: 'corn', colors: ['#fffbea', '#e8dcae'] },
       variants: [
         { id: '2kg', label: '約2kg（5〜6本）', price: 2916, stock: 0 },
@@ -211,7 +228,8 @@
       season: { from: 6, to: 6 },
       shipping: '6月中旬頃〜',
       cool: true,
-      photo: photo(186220385),
+      pid: 186220385,
+      photos: photos(186220385, 3),
       art: { type: 'corn', colors: ['#ffe066', '#e09c00'] },
       variants: [
         { id: '2kg', label: '約2kg（5〜6本）', price: 2333, stock: 0 },

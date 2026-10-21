@@ -1,23 +1,37 @@
 // 画面に依存しないロジック（価格計算・旬の判定・入力チェック）。
 // ブラウザでは window.Shop、Node では require で読み込める。
+// 送料・支払い方法は mb-musubi.net の「特定商取引法に基づく表記」に合わせている。
 (function (root) {
-  const SHIPPING_FEE = 990;
-  const FREE_SHIPPING_THRESHOLD = 10000;
-  const COOL_FEE = 330;
-  const GIFT_WRAP_FEE = 220;
-  const COD_FEE = 330;
   const MAX_QTY = 10;
   const LOW_STOCK = 5;
   const DELIVERY_MIN_DAYS = 3;
   const DELIVERY_MAX_DAYS = 30;
+  // 同じ住所へは2箱まで重ねて1個口で送れる。3箱以上は個口が増える。
+  const BOXES_PER_PARCEL = 2;
+
+  // 佐川急便・1個口あたりの送料（税込）
+  const SHIPPING_ZONES = [
+    { label: '北海道', fee: 1540, prefectures: ['北海道'] },
+    { label: '東北', fee: 1210, prefectures: ['青森県', '岩手県', '秋田県', '宮城県', '山形県', '福島県'] },
+    { label: '関東', fee: 1100, prefectures: ['茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県'] },
+    { label: '中部', fee: 1100, prefectures: ['新潟県', '福井県', '石川県', '富山県', '静岡県', '山梨県', '長野県', '愛知県', '岐阜県'] },
+    { label: '近畿', fee: 1100, prefectures: ['三重県', '和歌山県', '滋賀県', '奈良県', '京都府', '大阪府', '兵庫県'] },
+    { label: '中国', fee: 1210, prefectures: ['岡山県', '広島県', '鳥取県', '島根県', '山口県'] },
+    { label: '四国', fee: 1210, prefectures: ['香川県', '徳島県', '愛媛県', '高知県'] },
+    { label: '九州', fee: 1540, prefectures: ['福岡県', '佐賀県', '長崎県', '大分県', '熊本県', '宮崎県', '鹿児島県'] },
+    { label: '沖縄・離島', fee: 1540, prefectures: ['沖縄県'] },
+  ];
+  const MIN_SHIPPING_FEE = Math.min(...SHIPPING_ZONES.map((z) => z.fee));
 
   const PAYMENTS = {
-    cod: '代金引換',
     bank: '銀行振込（前払い）',
-    later: 'コンビニ後払い',
+    card: 'クレジットカード',
+    amazon: 'Amazon Pay',
   };
 
   const TIME_SLOTS = ['指定なし', '午前中', '14〜16時', '16〜18時', '18〜20時', '19〜21時'];
+
+  const INQUIRY_TYPES = ['商品・発送について', 'ギフト・のし', '法人・大口のご注文', '予約について', 'その他'];
 
   const PREFECTURES = [
     '北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県',
@@ -91,12 +105,20 @@
     return result;
   }
 
+  function shippingZone(prefecture) {
+    return SHIPPING_ZONES.find((z) => z.prefectures.includes(prefecture)) || null;
+  }
+
+  function parcelCount(boxes) {
+    return Math.ceil(boxes / BOXES_PER_PARCEL);
+  }
+
+  // 1点＝1箱として計算する。お届け先（都道府県）が未定のときは shipping を null にする。
   function calcTotals(cart, products, options) {
-    const opts = Object.assign({ giftWrap: false, payment: null }, options);
+    const opts = Object.assign({ prefecture: null }, options);
     const lines = [];
     let subtotal = 0;
     let count = 0;
-    let needsCool = false;
     for (const [key, qty] of Object.entries(cart)) {
       const item = findItem(products, key);
       if (!item || qty <= 0) continue;
@@ -104,23 +126,20 @@
       lines.push({ key, product: item.product, variant: item.variant, qty, lineTotal });
       subtotal += lineTotal;
       count += qty;
-      if (item.product.cool) needsCool = true;
     }
-    const empty = lines.length === 0;
-    const shipping = empty || subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
-    const cool = !empty && needsCool ? COOL_FEE : 0;
-    const gift = !empty && opts.giftWrap ? GIFT_WRAP_FEE : 0;
-    const cod = !empty && opts.payment === 'cod' ? COD_FEE : 0;
+    const parcels = parcelCount(count);
+    const zone = shippingZone(opts.prefecture);
+    let shipping = 0;
+    if (count > 0) shipping = zone ? zone.fee * parcels : null;
     return {
       lines,
       count,
       subtotal,
+      parcels,
+      zone,
       shipping,
-      cool,
-      gift,
-      cod,
-      total: subtotal + shipping + cool + gift + cod,
-      toFreeShipping: empty ? 0 : Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal),
+      minShipping: count > 0 ? MIN_SHIPPING_FEE * parcels : 0,
+      total: subtotal + (shipping || 0),
     };
   }
 
@@ -145,26 +164,29 @@
     return { min: toDateString(min), max: toDateString(max) };
   }
 
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function isValidPhone(value) {
+    const phone = toHalfWidth(value);
+    return /^[\d-]+$/.test(phone) && /^0\d{9,10}$/.test(phone.replace(/-/g, ''));
+  }
+
   function validateOrder(form, today) {
     const errors = {};
     const name = String(form.name || '').trim();
     const kana = String(form.kana || '').trim();
     const postal = toHalfWidth(form.postal);
-    const phone = toHalfWidth(form.phone);
     const email = String(form.email || '').trim();
     const address = String(form.address || '').trim();
 
     if (!name) errors.name = 'お名前を入力してください';
     if (!kana) errors.kana = 'フリガナを入力してください';
     else if (!/^[ァ-ヶー\s　]+$/.test(kana)) errors.kana = 'フリガナは全角カタカナで入力してください';
-    if (!/^\d{3}-?\d{4}$/.test(postal)) errors.postal = '郵便番号は7桁（例: 400-0031）で入力してください';
+    if (!/^\d{3}-?\d{4}$/.test(postal)) errors.postal = '郵便番号は7桁（例: 400-0046）で入力してください';
     if (!PREFECTURES.includes(form.prefecture)) errors.prefecture = '都道府県を選択してください';
     if (!address) errors.address = '住所を入力してください';
-    const phoneDigits = phone.replace(/-/g, '');
-    if (!/^[\d-]+$/.test(phone) || !/^0\d{9,10}$/.test(phoneDigits)) {
-      errors.phone = '電話番号は0から始まる10〜11桁で入力してください';
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = 'メールアドレスの形式が正しくありません';
+    if (!isValidPhone(form.phone)) errors.phone = '電話番号は0から始まる10〜11桁で入力してください';
+    if (!EMAIL_RE.test(email)) errors.email = 'メールアドレスの形式が正しくありません';
     if (form.deliveryDate) {
       const { min, max } = deliveryRange(today);
       if (form.deliveryDate < min || form.deliveryDate > max) {
@@ -176,6 +198,18 @@
     return errors;
   }
 
+  function validateInquiry(form) {
+    const errors = {};
+    if (!INQUIRY_TYPES.includes(form.type)) errors.type = 'お問い合わせの種類を選択してください';
+    if (!String(form.name || '').trim()) errors.name = 'お名前を入力してください';
+    if (!EMAIL_RE.test(String(form.email || '').trim())) errors.email = 'メールアドレスの形式が正しくありません';
+    if (String(form.phone || '').trim() && !isValidPhone(form.phone)) errors.phone = '電話番号は0から始まる10〜11桁で入力してください';
+    const message = String(form.message || '').trim();
+    if (!message) errors.message = 'お問い合わせ内容を入力してください';
+    else if (message.length > 2000) errors.message = 'お問い合わせ内容は2000文字以内で入力してください';
+    return errors;
+  }
+
   function generateOrderId(date, random) {
     const rand = typeof random === 'number' ? random : Math.random();
     const suffix = String(Math.floor(rand * 10000)).padStart(4, '0');
@@ -183,14 +217,13 @@
   }
 
   const api = {
-    SHIPPING_FEE,
-    FREE_SHIPPING_THRESHOLD,
-    COOL_FEE,
-    GIFT_WRAP_FEE,
-    COD_FEE,
     MAX_QTY,
+    BOXES_PER_PARCEL,
+    SHIPPING_ZONES,
+    MIN_SHIPPING_FEE,
     PAYMENTS,
     TIME_SLOTS,
+    INQUIRY_TYPES,
     PREFECTURES,
     formatYen,
     isInSeason,
@@ -201,10 +234,13 @@
     availability,
     maxQty,
     normalizeCart,
+    shippingZone,
+    parcelCount,
     calcTotals,
     toHalfWidth,
     deliveryRange,
     validateOrder,
+    validateInquiry,
     generateOrderId,
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;

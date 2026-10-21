@@ -19,6 +19,14 @@ const validForm = {
   payment: 'bank',
 };
 
+const validInquiry = {
+  type: '法人・大口のご注文',
+  name: '山梨 花子',
+  email: 'hanako@example.com',
+  phone: '',
+  message: 'キウイを10箱、別々の住所へ送りたいです。',
+};
+
 test('商品IDとサイズIDは重複しない', () => {
   const ids = PRODUCTS.map((p) => p.id);
   assert.equal(new Set(ids).size, ids.length);
@@ -71,34 +79,40 @@ test('normalizeCart は不明な商品・売り切れ・不正な数量を除き
   assert.deepEqual(Shop.normalizeCart(null, PRODUCTS), {});
 });
 
-test('送料: 1万円未満は有料、1万円以上で無料', () => {
-  const small = Shop.calcTotals({ 'hayward:3p': 1 }, PRODUCTS);
-  assert.equal(small.subtotal, 2700);
-  assert.equal(small.shipping, Shop.SHIPPING_FEE);
-  assert.equal(small.cool, 0);
-  assert.equal(small.toFreeShipping, 10000 - 2700);
+test('送料: お届け先が未定なら最低額からの目安、決まれば地域別に確定', () => {
+  const unknown = Shop.calcTotals({ 'hayward:3p': 1 }, PRODUCTS);
+  assert.equal(unknown.subtotal, 2700);
+  assert.equal(unknown.shipping, null);
+  assert.equal(unknown.minShipping, 1100);
+  assert.equal(unknown.total, 2700);
 
-  const large = Shop.calcTotals({ 'shine:2kg': 1, 'kyoho:2kg': 1 }, PRODUCTS);
-  assert.equal(large.subtotal, 7020 + 6480);
-  assert.equal(large.shipping, 0);
-  assert.equal(large.toFreeShipping, 0);
+  assert.equal(Shop.calcTotals({ 'hayward:3p': 1 }, PRODUCTS, { prefecture: '東京都' }).shipping, 1100);
+  assert.equal(Shop.calcTotals({ 'hayward:3p': 1 }, PRODUCTS, { prefecture: '宮城県' }).shipping, 1210);
+  assert.equal(Shop.calcTotals({ 'hayward:3p': 1 }, PRODUCTS, { prefecture: '北海道' }).shipping, 1540);
+  assert.equal(Shop.calcTotals({ 'hayward:3p': 1 }, PRODUCTS, { prefecture: '沖縄県' }).shipping, 1540);
 });
 
-test('クール便・ギフト包装・代引き手数料を合計に含める', () => {
-  const t = Shop.calcTotals({ 'kanikanmusume:2kg': 1, 'gracie:3p': 2 }, PRODUCTS, { giftWrap: true, payment: 'cod' });
-  const subtotal = 3240 + 1890 * 2;
-  assert.equal(t.subtotal, subtotal);
+test('全都道府県に送料の地域がある', () => {
+  for (const pref of Shop.PREFECTURES) assert.ok(Shop.shippingZone(pref), pref);
+});
+
+test('2箱まで1個口、3箱以上は個口が増える', () => {
+  assert.equal(Shop.parcelCount(1), 1);
+  assert.equal(Shop.parcelCount(2), 1);
+  assert.equal(Shop.parcelCount(3), 2);
+  assert.equal(Shop.parcelCount(5), 3);
+  const t = Shop.calcTotals({ 'shine:2kg': 2, 'kyoho:2kg': 1 }, PRODUCTS, { prefecture: '神奈川県' });
   assert.equal(t.count, 3);
-  assert.equal(t.cool, Shop.COOL_FEE);
-  assert.equal(t.gift, Shop.GIFT_WRAP_FEE);
-  assert.equal(t.cod, Shop.COD_FEE);
-  assert.equal(t.total, subtotal + Shop.SHIPPING_FEE + Shop.COOL_FEE + Shop.GIFT_WRAP_FEE + Shop.COD_FEE);
-  assert.equal(t.lines[0].variant.label, '約2kg（5〜8本）');
+  assert.equal(t.parcels, 2);
+  assert.equal(t.shipping, 2200);
+  assert.equal(t.total, 7020 * 2 + 6480 + 2200);
+  assert.equal(t.lines[0].variant.label, '2kg程度（2〜4房）');
 });
 
 test('空のカートは0円', () => {
-  const t = Shop.calcTotals({}, PRODUCTS, { giftWrap: true, payment: 'cod' });
+  const t = Shop.calcTotals({}, PRODUCTS, { prefecture: '東京都' });
   assert.equal(t.total, 0);
+  assert.equal(t.shipping, 0);
   assert.equal(t.lines.length, 0);
 });
 
@@ -128,13 +142,25 @@ test('不正な入力はフィールドごとにエラーを返す', () => {
       email: 'hanako@',
       deliveryDate: '2026-10-14',
       timeSlot: '深夜',
-      payment: 'card',
+      payment: 'cod',
     },
     new Date(2026, 9, 13)
   );
   assert.deepEqual(Object.keys(errors).sort(), [
     'address', 'deliveryDate', 'email', 'kana', 'name', 'payment', 'phone', 'postal', 'prefecture', 'timeSlot',
   ]);
+});
+
+test('問い合わせフォームの入力チェック', () => {
+  assert.deepEqual(Shop.validateInquiry(validInquiry), {});
+  assert.deepEqual(Shop.validateInquiry({ ...validInquiry, phone: '０９０−１２３４−５６７８' }), {});
+  const errors = Shop.validateInquiry({ type: '営業', name: '', email: 'x', phone: '123', message: ' ' });
+  assert.deepEqual(Object.keys(errors).sort(), ['email', 'message', 'name', 'phone', 'type']);
+  assert.ok(Shop.validateInquiry({ ...validInquiry, message: 'あ'.repeat(2001) }).message);
+});
+
+test('支払い方法は銀行振込・クレジットカード・Amazon Pay', () => {
+  assert.deepEqual(Object.keys(Shop.PAYMENTS), ['bank', 'card', 'amazon']);
 });
 
 test('注文番号は日付入りの形式', () => {
