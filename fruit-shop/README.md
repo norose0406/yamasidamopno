@@ -5,7 +5,25 @@ HTML / CSS / JavaScript だけで作っていて、ビルドやサーバーは�
 
 ## 使い方
 
-`fruit-shop/index.html` をブラウザで開くだけで動きます。
+### ローカルサーバーで見る（おすすめ）
+
+Node.js（18以上）が入っていれば、リポジトリのフォルダで次を実行します。追加のインストールは要りません。
+
+```
+git clone https://github.com/norose0406/yamasidamopno.git
+cd yamasidamopno
+git checkout claude/adoring-brahmagupta-yjazml
+npm start
+```
+
+ブラウザで http://localhost:8080 を開いてください。止めるときは `Ctrl + C` です。
+
+- ポートを変える: `PORT=3000 npm start`
+- 同じWi-Fiのスマホから見る: `HOST=0.0.0.0 npm start` で起動し、スマホで `http://<PCのIPアドレス>:8080` を開く
+
+### ファイルを直接開く
+
+`fruit-shop/index.html` をダブルクリックしてブラウザで開くだけでも動きます。
 （GitHub Pages などの静的ホスティングにそのまま置くこともできます）
 
 ## 機能
@@ -35,6 +53,7 @@ HTML / CSS / JavaScript だけで作っていて、ビルドやサーバーは�
 ```
 fruit-shop/
 ├── index.html
+├── server.js             # ローカル確認用サーバー（npm start）
 ├── css/style.css
 ├── js/
 │   ├── products.js       # 商品データ（価格・旬・在庫など）
@@ -49,5 +68,5 @@ fruit-shop/
 ## テスト
 
 ```
-node --test fruit-shop/tests/shop.test.js
+npm test
 ```
