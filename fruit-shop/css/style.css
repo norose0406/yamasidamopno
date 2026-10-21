@@ -534,8 +534,7 @@ svg {
 }
 
 /* ---- 商品カード ---- */
-.product-grid,
-.scroller {
+.product-grid {
   display: grid;
   gap: 32px 16px;
   margin: 0;
@@ -547,17 +546,7 @@ svg {
   grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
-.scroller {
-  grid-auto-flow: column;
-  grid-auto-columns: 200px;
-  overflow-x: auto;
-  padding-bottom: 8px;
-  scroll-snap-type: x proximity;
-}
 
-.scroller .card {
-  scroll-snap-align: start;
-}
 
 .card {
   min-width: 0;
@@ -589,9 +578,6 @@ svg {
 
 @media (hover: hover) {
   .card-link:hover .photo,
-  .tile:hover .photo {
-    transform: scale(1.04);
-  }
 }
 
 .card-link svg {
@@ -736,59 +722,12 @@ svg {
   color: var(--text-muted);
 }
 
-/* ---- カテゴリ ---- */
-.category-tiles {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
 
-.tile {
-  display: block;
-  width: 100%;
-  padding: 0;
-  border: none;
-  background: none;
-  text-align: left;
-}
 
-.tile-media {
-  display: grid;
-  place-items: center;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  background: var(--bg-sub);
-}
 
-.tile-media .photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
-}
 
-.tile-media svg {
-  width: 50%;
-}
 
-.tile-label {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--border-strong);
-  font-weight: 700;
-}
 
-.tile-label small {
-  font-size: 12px;
-  font-weight: 400;
-  color: var(--text-muted);
-}
 
 /* ---- ツールバー ---- */
 .toolbar {
@@ -930,7 +869,7 @@ svg {
 }
 
 /* ---- 旬カレンダー ---- */
-.calendar-wrap {
+.table-wrap {
   overflow-x: auto;
   border-top: 1px solid var(--border-strong);
 }
@@ -985,45 +924,16 @@ svg {
 .cal-kiwi { --cal-color: var(--cal-kiwi); }
 .cal-corn { --cal-color: var(--cal-corn); }
 
-/* ---- Instagram ---- */
-.insta {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 4px;
-}
+/* ---- SNS ---- */
 
-.insta-item {
-  aspect-ratio: 1;
-  overflow: hidden;
-  background: var(--bg-sub);
-}
 
-.insta-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: opacity 0.2s;
-}
 
-.insta-item:hover img {
-  opacity: 0.8;
-}
 
-.sns-follow {
-  margin-top: 20px;
-  text-align: center;
-}
 
-.sns-follow-title {
-  margin: 0 0 12px;
-  font-size: 14px;
-  font-weight: 700;
-}
 
 .sns-buttons {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: 8px;
 }
 
@@ -1307,11 +1217,6 @@ fieldset.field {
 }
 
 /* ---- 店舗情報 ---- */
-.shop-info {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 32px;
-}
 
 .spec {
   display: grid;
@@ -1338,14 +1243,16 @@ fieldset.field {
   overflow-wrap: anywhere;
 }
 
-.spec dd.sns-icons {
-  padding: 4px 0;
+
+.map-wrap {
+  margin-top: 32px;
 }
 
 .map-wrap iframe {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  max-width: 100%;
+  aspect-ratio: 21 / 8;
   border: 0;
   background: var(--bg-sub);
 }
@@ -1945,6 +1852,364 @@ dialog::backdrop {
   transform: translate(-50%, 0);
 }
 
+/* ---- 紹介（h1）---- */
+.intro {
+  padding-block: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.intro-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: center;
+}
+
+.intro h1 {
+  margin: 6px 0 12px;
+  font-size: clamp(24px, 3.4vw, 34px);
+  text-wrap: balance;
+}
+
+.intro-lead {
+  max-width: 40em;
+  margin: 0 0 20px;
+  color: var(--text-muted);
+}
+
+.intro-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.intro-points {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border-strong);
+}
+
+.intro-points li {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.intro-points strong {
+  font-size: 16px;
+  color: var(--text);
+}
+
+.section-lead {
+  max-width: 46em;
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.sub-title {
+  margin: 0 0 12px;
+  font-size: 15px;
+}
+
+.text-link {
+  align-self: flex-start;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font-size: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+/* ---- 商品のグループ ---- */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  min-height: 44px;
+  padding: 6px 16px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: var(--surface);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.chip[aria-pressed="true"] {
+  border-color: var(--border-strong);
+  background: var(--btn-bg);
+  color: var(--btn-text);
+}
+
+.group + .group {
+  margin-top: 40px;
+}
+
+.group-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.group-head h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 16px;
+}
+
+.group-count {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.group-head p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.group-soldout summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.group-soldout summary::-webkit-details-marker {
+  display: none;
+}
+
+.group-soldout .group-head {
+  border-bottom-color: var(--border);
+}
+
+.group-soldout .group-head h3 {
+  color: var(--text-muted);
+}
+
+.group-soldout .group-head::after {
+  content: "＋ 表示する";
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.group-soldout[open] .group-head::after {
+  content: "− 閉じる";
+}
+
+/* ---- ギフト・法人 ---- */
+.gift-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gift-cards li {
+  padding: 20px;
+  border-top: 2px solid var(--border-strong);
+  background: var(--surface);
+}
+
+.gift-cards h3 {
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.gift-cards p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.gift-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
+  margin-top: 24px;
+}
+
+.gift-actions p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.tel-link {
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: none;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- ご購入方法と送料 ---- */
+.buy-ways {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.buy-way {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+  border: 1px solid var(--border);
+}
+
+.buy-way-label {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.buy-way h3 {
+  font-size: 17px;
+}
+
+.steps {
+  display: grid;
+  gap: 4px;
+  margin: 4px 0 0;
+  padding-left: 1.4em;
+  font-size: 14px;
+}
+
+.buy-info {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.shipping-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.shipping-table th,
+.shipping-table td {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+.shipping-table th {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.shipping-table th:last-child,
+.shipping-table td:last-child {
+  text-align: right;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.calendar th[scope="row"] {
+  min-width: 200px;
+  white-space: normal;
+  font-weight: 700;
+}
+
+.calendar th[scope="row"] small {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+/* ---- 結 musubi について・SNS ---- */
+.about-sns {
+  margin-top: 24px;
+}
+
+.about-sns-title {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ---- 商品詳細の購入ボタンまわり ---- */
+.buy-note {
+  margin: 0 0 16px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.alt-buy {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: var(--bg-sub);
+}
+
+.alt-buy p {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.inquire-line {
+  margin: 0 0 8px;
+  font-size: 13px;
+}
+
+.nav-sep {
+  width: 1px;
+  margin: 12px 6px;
+  background: var(--border);
+}
+
+.contact-intro .sub-title {
+  margin-top: 28px;
+}
+
+@media (max-width: 860px) {
+  .intro-inner,
+  .gift-cards,
+  .buy-ways,
+  .buy-info {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .intro {
+    padding-block: 24px;
+  }
+
+  .map-wrap iframe {
+    aspect-ratio: 4 / 3;
+  }
+
+  .calendar th[scope="row"] {
+    min-width: 150px;
+  }
+}
+
 /* ---- レスポンシブ ---- */
 @media (max-width: 1100px) {
   .product-grid {
@@ -1959,19 +2224,12 @@ dialog::backdrop {
 
   .about,
   .contact,
-  .shop-info,
   .detail,
   .checkout-grid {
     grid-template-columns: 1fr;
   }
 
-  .category-tiles {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 
-  .insta {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
 
   .checkout-summary {
     position: static;
@@ -2061,10 +2319,6 @@ dialog::backdrop {
     gap: 24px 8px;
   }
 
-  .scroller {
-    grid-auto-columns: 42%;
-    gap: 8px;
-  }
 
   .card-name {
     font-size: 13px;

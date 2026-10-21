@@ -206,12 +206,12 @@
   <!-- /build:jsonld -->
 </head>
 <body>
-  <a class="skip-link" href="#items">商品一覧へスキップ</a>
+  <a class="skip-link" href="#items">商品へスキップ</a>
 
   <p class="notice-bar">
     <span>全国送料 1,100円〜（2箱まで同梱OK）</span>
     <span class="notice-sep" aria-hidden="true">｜</span>
-    <a href="#contact">ギフト・法人・大口のご相談はこちら</a>
+    <a href="#gift">ギフト・法人・大口のご相談はこちら</a>
   </p>
 
   <header class="site-header" id="top">
@@ -248,113 +248,176 @@
   </header>
 
   <main>
-    <section class="hero" aria-label="特集">
+    <section class="hero" id="hero" aria-label="季節の果物">
       <div class="hero-track" id="hero-track"></div>
       <div class="hero-dots" id="hero-dots" role="group" aria-label="スライドを選ぶ"></div>
     </section>
 
-    <section class="section container" aria-labelledby="pickup-title">
-      <div class="section-head">
-        <h2 id="pickup-title"><span class="en">PICK UP</span>今月のおすすめ</h2>
+    <section class="intro">
+      <div class="container intro-inner">
+        <div class="intro-text">
+          <p class="en">YAMANASHI DAMONO MUSUBI</p>
+          <h1>山梨の果物を、産地直送で。</h1>
+          <p class="intro-lead">甲府市の「やまなしだもの 結 musubi」です。シャインマスカットなどのぶどう、追熟キウイ「やまなしの雫」、朝採りとうもろこしを、いちばんおいしい時期にお届けします。</p>
+          <div class="intro-actions">
+            <a class="btn btn-primary" href="#items">今買える商品を見る</a>
+            <a class="btn btn-outline" href="#gift">ギフト・法人のご相談</a>
+          </div>
+        </div>
+        <ul class="intro-points">
+          <li><strong>産地直送</strong>山梨県甲府市から発送</li>
+          <li><strong>送料 1,100円〜</strong>2箱まで同梱して1個口</li>
+          <li><strong>ギフト・法人対応</strong>掛け売り・インボイス対応</li>
+        </ul>
       </div>
-      <ul class="scroller" id="pickup-list"></ul>
     </section>
 
-    <section class="section container" aria-labelledby="category-title">
-      <div class="section-head">
-        <h2 id="category-title"><span class="en">CATEGORY</span>カテゴリから探す</h2>
-      </div>
-      <ul class="category-tiles" id="category-tiles"></ul>
-    </section>
-
-    <section class="section container" id="items" aria-labelledby="items-title">
-      <div class="section-head">
-        <h2 id="items-title"><span class="en">ALL ITEMS</span><span id="items-heading">すべての商品</span></h2>
-      </div>
-      <div class="toolbar">
-        <p class="result-count" id="result-count" aria-live="polite"></p>
-        <div class="toolbar-right">
-          <label class="toggle">
-            <input type="checkbox" id="in-stock-only">
-            <span>在庫ありのみ</span>
-          </label>
+    <section class="section" id="items" aria-labelledby="items-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="items-title"><span class="en">ITEMS</span>商品</h2>
+        </div>
+        <div class="toolbar">
+          <div class="chips" id="catalog-filter" role="group" aria-label="カテゴリで絞り込む"></div>
           <label class="select">
             <span class="visually-hidden">並び替え</span>
             <select id="sort">
               <option value="recommended">おすすめ順</option>
               <option value="price-asc">価格の安い順</option>
               <option value="price-desc">価格の高い順</option>
-              <option value="season">旬が近い順</option>
             </select>
           </label>
         </div>
+        <p class="result-count" id="result-count" aria-live="polite"></p>
+        <div id="catalog">
+          <!-- build:products -->
+          <ul class="product-grid">
+            <li class="card"><a class="card-static" href="products/shine.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/169364212.jpg" alt="シャインマスカット" loading="lazy"></span><span class="card-body"><span class="card-name">シャインマスカット</span><span class="card-price">¥7,020<small>税込</small></span></span></a></li>
+            <li class="card"><a class="card-static" href="products/kyoho.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/169870014.jpg" alt="巨峰（種なし）" loading="lazy"></span><span class="card-body"><span class="card-name">巨峰（種なし）</span><span class="card-price">¥6,480<small>税込</small></span></span></a></li>
+            <li class="card"><a class="card-static" href="products/shinano-smile.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/188022084.jpg" alt="シナノスマイル" loading="lazy"></span><span class="card-body"><span class="card-name">シナノスマイル</span><span class="card-price">¥6,480<small>税込</small></span></span></a></li>
+            <li class="card"><a class="card-static" href="products/set-kaiking.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/188038303.jpg" alt="シャインマスカット＋甲斐キング 詰め合わせ" loading="lazy"></span><span class="card-body"><span class="card-name">シャインマスカット＋甲斐キング 詰め合わせ</span><span class="card-price">¥7,020<small>税込</small></span></span></a></li>
+            <li class="card"><a class="card-static" href="products/set-chateau.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/188038244.jpg" alt="シャインマスカット＋シャトウ・ルージュ 詰め合わせ" loading="lazy"></span><span class="card-body"><span class="card-name">シャインマスカット＋シャトウ・ルージュ 詰め合わせ</span><span class="card-price">¥7,020<small>税込</small></span></span></a></li>
+            <li class="card"><a class="card-static" href="products/set-shinano.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/176325613.jpg" alt="シャインマスカット＋シナノスマイル 詰め合わせ" loading="lazy"></span><span class="card-body"><span class="card-name">シャインマスカット＋シナノスマイル 詰め合わせ</span><span class="card-price">¥5,670<small>税込</small></span></span></a></li>
+            <li class="card"><a class="card-static" href="products/hayward.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/178016830.jpg" alt="追熟ヘイワードキウイ" loading="lazy"></span><span class="card-body"><span class="card-name">追熟ヘイワードキウイ【やまなしの雫】</span><span class="card-price">¥2,700〜<small>税込</small></span></span></a></li>
+            <li class="card"><a class="card-static" href="products/koryoku.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/188655122.jpg" alt="大玉追熟キウイ 香緑" loading="lazy"></span><span class="card-body"><span class="card-name">大玉追熟キウイ 香緑【やまなしの雫】</span><span class="card-price">¥3,564〜<small>税込</small></span></span></a></li>
+            <li class="card"><a class="card-static" href="products/gracie.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/189924618.jpg" alt="細長追熟キウイ グレイシー" loading="lazy"></span><span class="card-body"><span class="card-name">細長追熟キウイ グレイシー【やまなしの雫】</span><span class="card-price">¥1,890〜<small>税込</small></span></span></a></li>
+            <li class="card"><a class="card-static" href="products/kanikanmusume.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/174377888.jpg" alt="幻のとうもろこし 甘々娘（かんかんむすめ）" loading="lazy"></span><span class="card-body"><span class="card-name">幻のとうもろこし 甘々娘（かんかんむすめ）</span><span class="card-price">¥3,240〜<small>税込</small></span></span></a></li>
+            <li class="card"><a class="card-static" href="products/dolce-dream.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/180699340.jpg" alt="ドルチェドリーム" loading="lazy"></span><span class="card-body"><span class="card-name">ドルチェドリーム</span><span class="card-price">¥2,970〜<small>税込</small></span></span></a></li>
+            <li class="card"><a class="card-static" href="products/pure-white.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/191479899.jpg" alt="純白とうもろこし ピュアホワイト" loading="lazy"></span><span class="card-body"><span class="card-name">純白とうもろこし ピュアホワイト</span><span class="card-price">¥2,916〜<small>税込</small></span></span></a></li>
+            <li class="card"><a class="card-static" href="products/gold-rush.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/186220385.jpg" alt="ゴールドラッシュ" loading="lazy"></span><span class="card-body"><span class="card-name">ゴールドラッシュ</span><span class="card-price">¥2,333〜<small>税込</small></span></span></a></li>
+          </ul>
+          <!-- /build:products -->
+        </div>
       </div>
-      <ul class="product-grid" id="product-grid">
-        <!-- build:products -->
-        <li class="card"><a class="card-static" href="products/shine.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/169364212.jpg" alt="シャインマスカット" loading="lazy"></span><span class="card-body"><span class="card-name">シャインマスカット</span><span class="card-price">¥7,020<small>税込</small></span></span></a></li>
-        <li class="card"><a class="card-static" href="products/kyoho.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/169870014.jpg" alt="巨峰（種なし）" loading="lazy"></span><span class="card-body"><span class="card-name">巨峰（種なし）</span><span class="card-price">¥6,480<small>税込</small></span></span></a></li>
-        <li class="card"><a class="card-static" href="products/shinano-smile.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/188022084.jpg" alt="シナノスマイル" loading="lazy"></span><span class="card-body"><span class="card-name">シナノスマイル</span><span class="card-price">¥6,480<small>税込</small></span></span></a></li>
-        <li class="card"><a class="card-static" href="products/set-kaiking.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/188038303.jpg" alt="シャインマスカット＋甲斐キング 詰め合わせ" loading="lazy"></span><span class="card-body"><span class="card-name">シャインマスカット＋甲斐キング 詰め合わせ</span><span class="card-price">¥7,020<small>税込</small></span></span></a></li>
-        <li class="card"><a class="card-static" href="products/set-chateau.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/188038244.jpg" alt="シャインマスカット＋シャトウ・ルージュ 詰め合わせ" loading="lazy"></span><span class="card-body"><span class="card-name">シャインマスカット＋シャトウ・ルージュ 詰め合わせ</span><span class="card-price">¥7,020<small>税込</small></span></span></a></li>
-        <li class="card"><a class="card-static" href="products/set-shinano.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/176325613.jpg" alt="シャインマスカット＋シナノスマイル 詰め合わせ" loading="lazy"></span><span class="card-body"><span class="card-name">シャインマスカット＋シナノスマイル 詰め合わせ</span><span class="card-price">¥5,670<small>税込</small></span></span></a></li>
-        <li class="card"><a class="card-static" href="products/hayward.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/178016830.jpg" alt="追熟ヘイワードキウイ" loading="lazy"></span><span class="card-body"><span class="card-name">追熟ヘイワードキウイ【やまなしの雫】</span><span class="card-price">¥2,700〜<small>税込</small></span></span></a></li>
-        <li class="card"><a class="card-static" href="products/koryoku.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/188655122.jpg" alt="大玉追熟キウイ 香緑" loading="lazy"></span><span class="card-body"><span class="card-name">大玉追熟キウイ 香緑【やまなしの雫】</span><span class="card-price">¥3,564〜<small>税込</small></span></span></a></li>
-        <li class="card"><a class="card-static" href="products/gracie.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/189924618.jpg" alt="細長追熟キウイ グレイシー" loading="lazy"></span><span class="card-body"><span class="card-name">細長追熟キウイ グレイシー【やまなしの雫】</span><span class="card-price">¥1,890〜<small>税込</small></span></span></a></li>
-        <li class="card"><a class="card-static" href="products/kanikanmusume.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/174377888.jpg" alt="幻のとうもろこし 甘々娘（かんかんむすめ）" loading="lazy"></span><span class="card-body"><span class="card-name">幻のとうもろこし 甘々娘（かんかんむすめ）</span><span class="card-price">¥3,240〜<small>税込</small></span></span></a></li>
-        <li class="card"><a class="card-static" href="products/dolce-dream.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/180699340.jpg" alt="ドルチェドリーム" loading="lazy"></span><span class="card-body"><span class="card-name">ドルチェドリーム</span><span class="card-price">¥2,970〜<small>税込</small></span></span></a></li>
-        <li class="card"><a class="card-static" href="products/pure-white.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/191479899.jpg" alt="純白とうもろこし ピュアホワイト" loading="lazy"></span><span class="card-body"><span class="card-name">純白とうもろこし ピュアホワイト</span><span class="card-price">¥2,916〜<small>税込</small></span></span></a></li>
-        <li class="card"><a class="card-static" href="products/gold-rush.html"><span class="card-media"><img class="photo" src="https://img21.shop-pro.jp/PA01487/307/product/186220385.jpg" alt="ゴールドラッシュ" loading="lazy"></span><span class="card-body"><span class="card-name">ゴールドラッシュ</span><span class="card-price">¥2,333〜<small>税込</small></span></span></a></li>
-        <!-- /build:products -->
-      </ul>
     </section>
 
-    <section class="section section-band" id="about" aria-labelledby="about-title">
+    <section class="section section-band" id="gift" aria-labelledby="gift-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="gift-title"><span class="en">GIFT &amp; BUSINESS</span>ギフト・法人・大口のご注文</h2>
+          <p class="section-lead">お中元・お歳暮、取引先への贈答、まとめ買いのご相談を承ります。数量・お届け先・ご希望の時期をお知らせいただければ、担当者がご案内します。</p>
+        </div>
+        <ul class="gift-cards">
+          <li>
+            <h3>お中元・お歳暮</h3>
+            <p>ぶどうは8月下旬頃から、キウイ「やまなしの雫」は11月下旬頃から発送します。季節の贈り物の時期に合わせてご相談ください。</p>
+          </li>
+          <li>
+            <h3>法人の贈答・お取引先へ</h3>
+            <p>掛け売り（後払い）でのお取引に対応しています。適格請求書（インボイス）発行事業者です。</p>
+          </li>
+          <li>
+            <h3>まとめ買い・複数のお届け先</h3>
+            <p>同じご住所へは2箱まで1個口でお送りします。箱数やお届け先が多い場合は、送料と発送方法をご案内します。</p>
+          </li>
+        </ul>
+        <div class="gift-actions">
+          <a class="btn btn-primary" href="#contact" data-inquiry-type="法人・大口のご注文">ギフト・法人のご相談をする</a>
+          <p>お電話でも承ります：<a class="tel-link" href="tel:0552682960" data-track="click_tel">055-268-2960</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="how-to-buy" aria-labelledby="buy-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="buy-title"><span class="en">HOW TO BUY</span>ご購入方法と送料</h2>
+          <p class="section-lead">ご購入方法は2つあります。お支払い方法やご注文の内容に合わせてお選びください。</p>
+        </div>
+        <div class="buy-ways">
+          <article class="buy-way">
+            <p class="buy-way-label">まとめ買い・ギフト・銀行振込の方に</p>
+            <h3>このサイトで注文を申し込む</h3>
+            <ol class="steps">
+              <li>商品を選んでカートに入れる</li>
+              <li>お届け先を入力して申し込む</li>
+              <li>在庫と送料を確認し、お支払い方法をメールでご案内（この時点でご注文が確定）</li>
+            </ol>
+          </article>
+          <article class="buy-way">
+            <p class="buy-way-label">クレジットカード・Amazon Payの方に</p>
+            <h3>公式オンラインショップで購入する</h3>
+            <ol class="steps">
+              <li>商品の詳細で「公式オンラインショップで購入」を押す</li>
+              <li>公式オンラインショップ（カラーミーショップ）でお支払い</li>
+              <li>ご注文完了。確認メールが届きます</li>
+            </ol>
+            <a class="text-link" href="https://mb-musubi.net/" target="_blank" rel="noopener" data-track="click_store">公式オンラインショップを開く</a>
+          </article>
+        </div>
+
+        <div class="buy-info">
+          <div>
+            <h3 class="sub-title">送料（佐川急便・1個口あたり・税込）</h3>
+            <div class="table-wrap">
+              <table class="shipping-table" id="shipping-table"></table>
+            </div>
+            <p class="hint">同じご住所へは2箱まで重ねて1個口でお送りします（3〜4箱で2個口、5箱で3個口）。</p>
+          </div>
+          <div>
+            <h3 class="sub-title">よくあるご質問</h3>
+            <div class="faq" id="faq"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-band" id="calendar" aria-labelledby="calendar-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="calendar-title"><span class="en">CALENDAR</span>旬カレンダー</h2>
+          <p class="section-lead">旬の時期以外は予約を受け付け、発送時期が来たら順次お届けします。</p>
+        </div>
+        <div class="table-wrap">
+          <table class="calendar" id="season-calendar"></table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about" aria-labelledby="about-title">
       <div class="container about">
         <div class="about-text">
-          <h2 id="about-title"><span class="en">ABOUT</span>山梨の旬を、結んでお届け。</h2>
+          <h2 id="about-title"><span class="en">ABOUT</span>結 musubi について</h2>
           <p>「やまなしだもの 結 musubi」は、山梨県甲府市から果物と野菜を産地直送するお店です。生産者が育てた旬の味を、いちばんおいしい時期にお届けします。</p>
           <ul class="about-points">
             <li><strong>ぶどう</strong>人気No.1のシャインマスカット、山梨市牧丘の種なし巨峰、希少なシナノスマイル。</li>
             <li><strong>キウイ「やまなしの雫」</strong>独自の追熟で平均糖度13度以上。ホルモン剤や栽培期間中の農薬は使っていません。</li>
             <li><strong>朝採りとうもろこし</strong>市川三郷町大塚地区の「幻のとうもろこし」甘々娘など、朝採りをそのまま発送。</li>
           </ul>
+          <div class="about-sns" id="about-sns"></div>
         </div>
         <div class="about-photos" id="about-photos" aria-hidden="true"></div>
       </div>
     </section>
 
-    <section class="section container" id="calendar" aria-labelledby="calendar-title">
-      <div class="section-head">
-        <h2 id="calendar-title"><span class="en">CALENDAR</span>旬カレンダー</h2>
-        <p class="section-note">旬の時期以外は「予約受付中」です。発送時期が来たら順次お届けします。</p>
-      </div>
-      <div class="calendar-wrap">
-        <table class="calendar" id="season-calendar"></table>
-      </div>
-    </section>
-
-    <section class="section container" id="sns" aria-labelledby="sns-title">
-      <div class="section-head">
-        <h2 id="sns-title"><span class="en">INSTAGRAM</span>畑と収穫の様子を発信中</h2>
-        <p class="section-note">収穫の様子や入荷情報をいち早くお知らせしています。</p>
-      </div>
-      <div class="insta" id="insta-grid"></div>
-      <div class="sns-follow" id="sns-follow"></div>
-    </section>
-
-    <section class="section container" id="guide" aria-labelledby="guide-title">
-      <div class="section-head">
-        <h2 id="guide-title"><span class="en">GUIDE</span>ご利用ガイド・よくあるご質問</h2>
-      </div>
-      <div class="faq" id="faq"></div>
-    </section>
-
     <section class="section section-band" id="contact" aria-labelledby="contact-title">
       <div class="container contact">
         <div class="contact-intro">
-          <h2 id="contact-title"><span class="en">CONTACT</span>お問い合わせ・ご相談</h2>
-          <p>商品や発送のこと、お中元・お歳暮などのギフト、のし、法人・大口のご注文まで、お気軽にご相談ください。担当者よりメールまたはお電話でご連絡します。</p>
+          <h2 id="contact-title"><span class="en">CONTACT</span>お問い合わせ</h2>
+          <p>商品や発送のこと、ギフト・法人・大口のご注文まで、お気軽にご相談ください。担当者よりメールまたはお電話でご連絡します。</p>
           <ul class="contact-routes" id="contact-routes"></ul>
+          <h3 class="sub-title">店舗情報</h3>
+          <dl class="spec" id="shop-spec"></dl>
         </div>
 
         <form class="contact-form" id="inquiry-form" novalidate>
@@ -399,16 +462,7 @@
           <p class="form-note" id="inquiry-note"></p>
         </form>
       </div>
-    </section>
-
-    <section class="section container" id="shop-info" aria-labelledby="shop-title">
-      <div class="section-head">
-        <h2 id="shop-title"><span class="en">SHOP</span>店舗情報</h2>
-      </div>
-      <div class="shop-info">
-        <dl class="spec" id="shop-spec"></dl>
-        <div class="map-wrap" id="map-wrap"></div>
-      </div>
+      <div class="container map-wrap" id="map-wrap"></div>
     </section>
   </main>
 
@@ -420,7 +474,8 @@
         <div class="sns-icons" id="footer-sns"></div>
       </div>
       <ul class="footer-links">
-        <li><a href="#guide">ご利用ガイド</a></li>
+        <li><a href="#how-to-buy">ご購入方法と送料</a></li>
+        <li><a href="#gift">ギフト・法人のご注文</a></li>
         <li><a href="#contact">お問い合わせ</a></li>
         <li><a href="https://mb-musubi.net/?mode=sk" rel="noopener" target="_blank">特定商取引法に基づく表記</a></li>
         <li><a href="https://mb-musubi.net/?mode=privacy" rel="noopener" target="_blank">プライバシーポリシー</a></li>

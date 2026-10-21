@@ -107,7 +107,7 @@ function buildIndex() {
   ];
   html = replaceBlock(html, 'jsonld', ld.map(jsonLd).join('\n'));
   // JavaScript が動かない環境（検索エンジンの一部など）向けの商品一覧。表示時は app.js が描き直す。
-  html = replaceBlock(html, 'products', PRODUCTS.map((p) => '        ' + staticCard(p, '')).join('\n'));
+  html = replaceBlock(html, 'products', '          <ul class="product-grid">\n' + PRODUCTS.map((p) => '            ' + staticCard(p, '')).join('\n') + '\n          </ul>');
   fs.writeFileSync(file, html);
 }
 

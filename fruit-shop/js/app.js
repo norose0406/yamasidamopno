@@ -16,7 +16,6 @@
   const state = {
     category: 'all',
     query: '',
-    inStockOnly: false,
     sort: 'recommended',
     cart: Shop.normalizeCart(load(CART_KEY, {}), PRODUCTS),
     favorites: (load(FAV_KEY, []) || []).filter((id) => byId.has(id)),
@@ -155,23 +154,28 @@
   }
 
   // ---- ヘッダー・カテゴリ ----
-  function renderCategoryNav() {
-    const cats = CATEGORIES.map(
-      (c) =>
-        '<li><button type="button" data-category="' + c.id + '" aria-pressed="' + (state.category === c.id) + '">' +
-        (c.id === 'all' ? 'すべての商品' : c.label) + '</button></li>'
+  function categoryButtons(className) {
+    return CATEGORIES.map(
+      (c) => '<button type="button" class="' + className + '" data-category="' + c.id + '" aria-pressed="' + (state.category === c.id) + '">' + c.label + '</button>'
     ).join('');
+  }
+
+  function renderCategoryNav() {
     $('#category-nav').innerHTML =
-      cats +
-      '<li><a href="#calendar">旬カレンダー</a></li>' +
-      '<li><a href="#guide">ご利用ガイド</a></li>' +
-      '<li><a href="#contact">ギフト・法人のご相談</a></li>';
+      CATEGORIES.filter((c) => c.id !== 'all')
+        .map((c) => '<li><button type="button" data-category="' + c.id + '" aria-pressed="' + (state.category === c.id) + '">' + c.label + '</button></li>')
+        .join('') +
+      '<li class="nav-sep" aria-hidden="true"></li>' +
+      '<li><a href="#gift">ギフト・法人</a></li>' +
+      '<li><a href="#how-to-buy">ご購入方法・送料</a></li>' +
+      '<li><a href="#contact">お問い合わせ</a></li>';
+    $('#catalog-filter').innerHTML = categoryButtons('chip');
   }
 
   function setCategory(id, scroll) {
     state.category = id;
     renderCategoryNav();
-    renderProducts();
+    renderCatalog();
     if (scroll) $('#items').scrollIntoView({ behavior: 'smooth' });
   }
 
@@ -242,12 +246,9 @@
     document.querySelectorAll('#hero-dots button').forEach((b, i) => b.setAttribute('aria-current', i === current ? 'true' : 'false'));
   }
 
+  // スライド写真が1枚も読めないときは、スライド欄ごと隠す（見出しは下の紹介欄にある）
   function heroFallback() {
-    $('.hero').classList.add('hero-text-only');
-    $('#hero-track').innerHTML =
-      '<div class="hero-slide hero-copy"><p class="en">YAMANASHI DAMONO</p><p class="hero-copy-title">山梨の旬を、結んでお届け。</p>' +
-      '<p>シャインマスカット・追熟キウイ・朝採りとうもろこしを産地直送</p></div>';
-    $('#hero-dots').innerHTML = '';
+    $('#hero').hidden = true;
     window.clearInterval(heroTimer);
   }
 
@@ -268,19 +269,17 @@
     }
   }
 
-  // ---- 商品一覧 ----
-  function monthsUntilSeason(product) {
-    if (Shop.isInSeason(product, month)) return 0;
-    return (product.season.from - month + 12) % 12;
-  }
-
-  const soldOutLast = (p) => (Shop.availability(p, month).status === 'soldout' ? 1 : 0);
+  // ---- 商品（販売中・予約受付中・今季終了に分けて表示）----
+  const GROUPS = [
+    { id: 'now', title: '販売中', note: 'ご注文後1週間以内に発送します。', match: (s) => s === 'available' || s === 'low' },
+    { id: 'reserve', title: '予約受付中', note: '発送時期が来たら、順次お届けします。', match: (s) => s === 'reserve' },
+    { id: 'soldout', title: '今季の販売は終了しました', note: '次のシーズンの予約開始はInstagramでお知らせします。', match: (s) => s === 'soldout' },
+  ];
 
   function filteredProducts() {
     const q = state.query.trim().toLowerCase();
     const list = PRODUCTS.filter((p) => {
       if (state.category !== 'all' && p.category !== state.category) return false;
-      if (state.inStockOnly && Shop.availability(p, month).status === 'soldout') return false;
       if (!q) return true;
       return [p.name, p.origin, CATEGORY_LABEL[p.category], p.description].some((t) => t.toLowerCase().includes(q));
     });
@@ -288,41 +287,28 @@
       recommended: () => 0,
       'price-asc': (a, b) => Shop.minPrice(a) - Shop.minPrice(b),
       'price-desc': (a, b) => Shop.minPrice(b) - Shop.minPrice(a),
-      season: (a, b) => monthsUntilSeason(a) - monthsUntilSeason(b),
     };
-    return list.slice().sort((a, b) => soldOutLast(a) - soldOutLast(b) || sorters[state.sort](a, b));
+    return list.slice().sort(sorters[state.sort]);
   }
 
-  function renderProducts() {
+  function renderCatalog() {
     const list = filteredProducts();
-    $('#items-heading').textContent = state.query
-      ? '「' + state.query + '」の検索結果'
-      : state.category === 'all'
-        ? 'すべての商品'
-        : CATEGORY_LABEL[state.category];
-    $('#result-count').textContent = list.length + '件';
-    $('#product-grid').innerHTML = list.length
-      ? list.map(productCard).join('')
-      : '<li class="empty">条件に合う商品が見つかりませんでした。<br><a href="#contact">お探しの商品はお問い合わせください</a></li>';
-  }
-
-  function renderPickup() {
-    const list = PRODUCTS.filter((p) => soldOutLast(p) === 0).slice(0, 8);
-    $('#pickup-list').innerHTML = list.map(productCard).join('');
-  }
-
-  function renderCategoryTiles() {
-    $('#category-tiles').innerHTML = CATEGORIES.filter((c) => c.id !== 'all')
-      .map((c) => {
-        const items = PRODUCTS.filter((p) => p.category === c.id);
-        return (
-          '<li><button type="button" class="tile" data-category-jump="' + c.id + '">' +
-          '<span class="tile-media">' + visual(items[0], 'tile') + '</span>' +
-          '<span class="tile-label">' + c.label + '<small>' + items.length + '商品</small></span>' +
-          '</button></li>'
-        );
-      })
-      .join('');
+    const label = state.query ? '「' + state.query + '」の検索結果' : state.category === 'all' ? 'すべての商品' : CATEGORY_LABEL[state.category];
+    $('#result-count').textContent = label + '　' + list.length + '件';
+    if (list.length === 0) {
+      $('#catalog').innerHTML = '<p class="empty">条件に合う商品が見つかりませんでした。<br><a href="#contact">お探しの商品はお問い合わせください</a></p>';
+      return;
+    }
+    $('#catalog').innerHTML = GROUPS.map((g) => {
+      const items = list.filter((p) => g.match(Shop.availability(p, month).status));
+      if (items.length === 0) return '';
+      const head =
+        '<div class="group-head"><h3>' + g.title + '<span class="group-count">' + items.length + '</span></h3><p>' + g.note + '</p></div>';
+      const grid = '<ul class="product-grid">' + items.map(productCard).join('') + '</ul>';
+      // 売り切れは閉じた状態で一番下に置く
+      if (g.id === 'soldout') return '<details class="group group-soldout"><summary>' + head + '</summary>' + grid + '</details>';
+      return '<section class="group">' + head + grid + '</section>';
+    }).join('');
   }
 
   function renderAbout() {
@@ -331,39 +317,46 @@
       .join('');
   }
 
-  // ---- 旬カレンダー ----
+  // ---- 旬カレンダー（品目ごと）----
   function renderCalendar() {
     let head = '<thead><tr><th scope="col">品目</th>';
     for (let m = 1; m <= 12; m++) head += '<th scope="col"' + (m === month ? ' class="current"' : '') + '>' + m + '月</th>';
     head += '</tr></thead>';
-    const rows = PRODUCTS.filter((p) => p.category !== 'set')
-      .map((p) => {
+    const rows = CATEGORIES.filter((c) => c.id !== 'all' && c.id !== 'set')
+      .map((c) => {
+        const items = PRODUCTS.filter((p) => p.category === c.id);
+        const sample = items[0];
+        const varieties = items.map((p) => plainName(p).replace(/^(幻のとうもろこし|純白とうもろこし|大玉追熟キウイ|細長追熟キウイ|追熟)\s*/, '').replace(/（.*?）/g, '')).join('・');
         let cells = '';
         for (let m = 1; m <= 12; m++) {
-          const on = Shop.isInSeason(p, m);
-          cells +=
-            '<td class="' + (on ? 'on cal-' + p.category : '') + (m === month ? ' current' : '') + '">' +
-            (on ? '<span class="visually-hidden">旬</span>' : '') + '</td>';
+          const on = Shop.isInSeason(sample, m);
+          cells += '<td class="' + (on ? 'on cal-' + c.id : '') + (m === month ? ' current' : '') + '">' + (on ? '<span class="visually-hidden">旬</span>' : '') + '</td>';
         }
-        return '<tr><th scope="row">' + plainName(p) + '</th>' + cells + '</tr>';
+        return '<tr><th scope="row">' + c.label + '<small>' + varieties + '</small><small>発送 ' + sample.shipping + '</small></th>' + cells + '</tr>';
       })
       .join('');
     $('#season-calendar').innerHTML = '<caption class="visually-hidden">品目ごとの旬の時期</caption>' + head + '<tbody>' + rows + '</tbody>';
   }
 
+  // ---- 送料表 ----
+  function renderShippingTable() {
+    const byFee = new Map();
+    Shop.SHIPPING_ZONES.forEach((z) => byFee.set(z.fee, (byFee.get(z.fee) || []).concat(z.label)));
+    $('#shipping-table').innerHTML =
+      '<thead><tr><th scope="col">地域</th><th scope="col">送料</th></tr></thead><tbody>' +
+      Array.from(byFee.entries())
+        .sort((a, b) => a[0] - b[0])
+        .map(([fee, labels]) => '<tr><td>' + labels.join('・') + '</td><td>' + Shop.formatYen(fee) + '</td></tr>')
+        .join('') +
+      '</tbody>';
+  }
+
   // ---- SNS ----
   function renderSns() {
-    const photos = HERO_PHOTOS.slice(0, 6);
     const handle = CONFIG.sns.instagram ? '@' + CONFIG.sns.instagram.replace(/\/$/, '').split('/').pop() : '';
-    $('#insta-grid').innerHTML = photos
-      .map(
-        (src) =>
-          '<a class="insta-item" data-hide-box href="' + CONFIG.sns.instagram + '" target="_blank" rel="noopener" data-sns="instagram" aria-label="Instagram ' + handle + ' を見る">' +
-          '<img src="' + src + '" alt="" loading="lazy" data-hide-on-error></a>'
-      )
-      .join('');
-    $('#sns-follow').innerHTML =
-      '<p class="sns-follow-title">' + handle + ' をフォローして、収穫・入荷情報を受け取る</p><div class="sns-buttons">' + snsLinks('sns-button') + '</div>';
+    $('#about-sns').innerHTML =
+      '<p class="about-sns-title">収穫や入荷のお知らせを発信しています' + (handle ? '（Instagram ' + handle + '）' : '') + '</p>' +
+      '<div class="sns-buttons">' + snsLinks('sns-button') + '</div>';
     $('#footer-sns').innerHTML = snsLinks('sns-icon');
   }
 
@@ -385,8 +378,7 @@
       '<dt>運営</dt><dd>' + s.company + '</dd>' +
       '<dt>所在地</dt><dd>' + fullAddress() + '</dd>' +
       '<dt>電話</dt><dd><a href="tel:' + s.tel.replace(/-/g, '') + '" data-track="click_tel">' + s.tel + '</a></dd>' +
-      '<dt>メール</dt><dd><a href="mailto:' + s.email + '" data-track="click_email">' + s.email + '</a></dd>' +
-      '<dt>SNS</dt><dd class="sns-icons">' + snsLinks('sns-icon') + '</dd>';
+      '<dt>メール</dt><dd><a href="mailto:' + s.email + '" data-track="click_email">' + s.email + '</a></dd>';
     const mapUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(CONFIG.meo.mapQuery);
     $('#map-wrap').innerHTML =
       '<iframe title="' + s.name + ' の地図" src="https://www.google.com/maps?q=' + encodeURIComponent(CONFIG.meo.mapQuery) + '&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' +
@@ -567,9 +559,11 @@
           '<button type="button" class="btn btn-primary" data-add-detail="' + p.id + '">カートに入れる</button>' +
           favButton(p, 'fav-large') +
           '</div>' +
-          '<a class="store-link" href="' + CONFIG.shop.storeUrl + '?pid=' + p.pid + '" target="_blank" rel="noopener" data-store="' + p.id + '">クレジットカード・Amazon Payで今すぐ購入（公式オンラインショップ）</a>'
+          '<p class="buy-note">カートからご注文を申し込むと、お支払い方法をメールでご案内します。</p>' +
+          '<div class="alt-buy"><p>クレジットカード・Amazon Payですぐに決済したい方</p>' +
+          '<a class="btn btn-outline btn-block" href="' + CONFIG.shop.storeUrl + '?pid=' + p.pid + '" target="_blank" rel="noopener" data-store="' + p.id + '">公式オンラインショップで購入</a></div>'
         : '<div class="detail-actions">' + favButton(p, 'fav-large') + '</div>') +
-      '<button type="button" class="btn btn-outline btn-block" data-inquire="' + p.id + '">この商品について問い合わせる（ギフト・大口も歓迎）</button>' +
+      '<p class="inquire-line">ギフト・大口のご注文や、商品についてのご質問は <button type="button" class="text-link" data-inquire="' + p.id + '">この商品について問い合わせる</button></p>' +
       '<p class="detail-desc">' + p.description + '</p>' +
       '<dl class="spec">' +
       (p.variants.length === 1 ? '<dt>内容量</dt><dd>' + p.variants[0].label + '</dd>' : '') +
@@ -824,20 +818,16 @@
     const search = $('#search');
     search.addEventListener('input', () => {
       state.query = search.value;
-      renderProducts();
+      renderCatalog();
     });
     $('#search-form').addEventListener('submit', (e) => {
       e.preventDefault();
       $('#items').scrollIntoView({ behavior: 'smooth' });
       if (state.query) track('search', { search_term: state.query });
     });
-    $('#in-stock-only').addEventListener('change', (e) => {
-      state.inStockOnly = e.target.checked;
-      renderProducts();
-    });
     $('#sort').addEventListener('change', (e) => {
       state.sort = e.target.value;
-      renderProducts();
+      renderCatalog();
     });
 
     // 詳細画面：サイズを変えたら価格と数量の上限を更新する
@@ -864,9 +854,12 @@
         return openDetail(detail.dataset.detail);
       }
       const cat = t.closest('[data-category]');
-      if (cat) return setCategory(cat.dataset.category, true);
-      const jump = t.closest('[data-category-jump]');
-      if (jump) return setCategory(jump.dataset.categoryJump, true);
+      if (cat) return setCategory(cat.dataset.category, !cat.classList.contains('chip'));
+      const inquiryType = t.closest('[data-inquiry-type]');
+      if (inquiryType) {
+        const radio = document.querySelector('#inquiry-types input[value="' + inquiryType.dataset.inquiryType + '"]');
+        if (radio) radio.checked = true;
+      }
       const slide = t.closest('[data-slide]');
       if (slide) {
         window.clearInterval(heroTimer);
@@ -972,11 +965,10 @@
   bindEvents();
   renderCategoryNav();
   renderHero();
-  renderPickup();
-  renderCategoryTiles();
-  renderProducts();
+  renderCatalog();
   renderAbout();
   renderCalendar();
+  renderShippingTable();
   renderSns();
   renderFaq();
   renderContact();
