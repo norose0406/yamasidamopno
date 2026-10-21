@@ -140,7 +140,9 @@
       cool: false,
       badge: '希少品種',
       pid: 188655122,
-      photos: photos(188655122, 2),
+      // メイン写真はお店から提供された文字入りの画像（全体を表示）
+      bannerPhoto: true,
+      photos: ['images/products/koryoku.jpg'].concat(photos(188655122, 2)),
       art: { type: 'kiwi', colors: ['#a8d94a', '#3f7d16'] },
       variants: [
         { id: '3p', label: '3パック（1パック4〜5個・500g前後）', price: 3564, stock: 99 },
@@ -158,7 +160,9 @@
       shipping: '11月下旬頃〜',
       cool: false,
       pid: 189924618,
-      photos: photos(189924618, 1),
+      // メイン写真はお店から提供された文字入りの画像（全体を表示）
+      bannerPhoto: true,
+      photos: ['images/products/gracie.jpg'].concat(photos(189924618, 1)),
       art: { type: 'kiwi', colors: ['#d6ea7a', '#86a92b'] },
       variants: [
         { id: '3p', label: '3パック（1パック4〜5個・500g前後）', price: 1890, stock: 99 },
