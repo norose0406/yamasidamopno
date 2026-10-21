@@ -1,6 +1,7 @@
 // 商品データ（やまなしだもの 結 musubi の取り扱い商品をもとにしたデモ用データ）。
 // 価格はすべて税込。season は旬の月（from〜to）。11月〜2月のように年をまたぐ場合は from > to になる。
-// pid は mb-musubi.net（カラーミーショップ）の商品番号。photos の1枚目がメイン写真。variants はサイズ違い（2kg / 4kg、3パック / 6パック など）。stock が 0 なら売り切れ。
+// pid は mb-musubi.net（カラーミーショップ）の商品番号。photos の1枚目がメイン写真。
+// photos には URL のほか、fruit-shop/ からの相対パス（images/...）も書ける。variants はサイズ違い（2kg / 4kg、3パック / 6パック など）。stock が 0 なら売り切れ。
 (function (root) {
   const PHOTO_BASE = 'https://img21.shop-pro.jp/PA01487/307/';
   // 商品写真（メイン＋サブ写真 _o1, _o2 ...）
@@ -117,7 +118,10 @@
       cool: false,
       badge: '定番人気',
       pid: 178016830,
-      photos: photos(178016830, 6),
+      // メイン写真はお店から提供された画像（images/ に保存）。2枚目以降はカラーミーの商品写真
+      // 文字入りの画像なので、正方形に切り抜かず全体を表示する
+      bannerPhoto: true,
+      photos: ['images/products/hayward.jpg'].concat(photos(178016830, 6)),
       art: { type: 'kiwi', colors: ['#c9e265', '#6f9a1e'] },
       variants: [
         { id: '3p', label: '3パック（1パック4〜6個・500g前後）', price: 2700, stock: 99 },

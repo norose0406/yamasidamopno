@@ -17,6 +17,10 @@ const today = new Date().toISOString().slice(0, 10);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const plainName = (p) => p.name.replace(/【.*?】/g, '').trim();
 const productUrl = (p) => SITE + '/products/' + p.id + '.html';
+const isUrl = (src) => /^https?:\/\//.test(src);
+// 写真の場所：URL はそのまま、images/... のような相対パスは置き場所に合わせて解決する
+const absImage = (src) => (isUrl(src) ? src : SITE + '/' + src);
+const relImage = (src, prefix) => (isUrl(src) ? src : prefix + src);
 const jsonLd = (data) => '<script type="application/ld+json">\n' + JSON.stringify(data, null, 2).replace(/</g, '\\u003c') + '\n</script>';
 
 const sameAs = Object.values(CONFIG.sns).filter(Boolean);
@@ -27,7 +31,7 @@ const storeLd = {
   '@id': SITE + '/#store',
   name: shop.name,
   url: SITE + '/',
-  image: PRODUCTS[0].photos[0],
+  image: absImage(PRODUCTS[0].photos[0]),
   telephone: shop.tel,
   email: shop.email,
   address: {
@@ -55,7 +59,7 @@ function productLd(p) {
     '@type': 'Product',
     name: plainName(p),
     description: p.description,
-    image: p.photos,
+    image: p.photos.map(absImage),
     sku: String(p.pid),
     category: CATEGORY_LABEL[p.category],
     brand: { '@type': 'Brand', name: shop.name },
@@ -74,7 +78,7 @@ function productLd(p) {
 function staticCard(p, prefix) {
   return (
     '<li class="card"><a class="card-static" href="' + prefix + 'products/' + p.id + '.html">' +
-    '<span class="card-media"><img class="photo" src="' + p.photos[0] + '" alt="' + esc(plainName(p)) + '" loading="lazy"></span>' +
+    '<span class="card-media"><img class="photo' + (p.bannerPhoto ? ' photo-whole' : '') + '" src="' + relImage(p.photos[0], prefix) + '" alt="' + esc(plainName(p)) + '" loading="lazy"></span>' +
     '<span class="card-body"><span class="card-name">' + esc(p.name) + '</span>' +
     '<span class="card-price">' + Shop.formatYen(Shop.minPrice(p)) + (p.variants.length > 1 ? '〜' : '') + '<small>税込</small></span></span>' +
     '</a></li>'
@@ -140,7 +144,7 @@ function productPage(p) {
   <meta property="og:title" content="${esc(name + '｜' + shop.name)}">
   <meta property="og:description" content="${esc(p.description)}">
   <meta property="og:url" content="${productUrl(p)}">
-  <meta property="og:image" content="${p.photos[0]}">
+  <meta property="og:image" content="${absImage(p.photos[0])}">
   <meta property="og:locale" content="ja_JP">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="../css/style.css">
@@ -158,8 +162,8 @@ ${jsonLd(breadcrumb)}
     <nav class="breadcrumb" aria-label="パンくずリスト"><a href="../index.html">トップ</a> ＞ <a href="../index.html#items">${esc(CATEGORY_LABEL[p.category])}</a> ＞ ${esc(name)}</nav>
     <article class="detail">
       <div class="detail-gallery">
-        <div class="detail-main"><img class="photo" src="${p.photos[0]}" alt="${esc(name)}"></div>
-        ${p.photos.length > 1 ? '<div class="thumbs">' + p.photos.slice(1).map((src, i) => '<span class="thumb-static"><img class="photo" src="' + src + '" alt="' + esc(name) + ' 写真' + (i + 2) + '" loading="lazy"></span>').join('') + '</div>' : ''}
+        <div class="detail-main"><img class="photo${p.bannerPhoto ? ' photo-whole' : ''}" src="${relImage(p.photos[0], '../')}" alt="${esc(name)}"></div>
+        ${p.photos.length > 1 ? '<div class="thumbs">' + p.photos.slice(1).map((src, i) => '<span class="thumb-static"><img class="photo" src="' + relImage(src, '../') + '" alt="' + esc(name) + ' 写真' + (i + 2) + '" loading="lazy"></span>').join('') + '</div>' : ''}
       </div>
       <div class="detail-info">
         <span class="status status-${status.status}">${status.label}</span>

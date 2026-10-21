@@ -1852,6 +1852,12 @@ dialog::backdrop {
   transform: translate(-50%, 0);
 }
 
+/* 文字入りの画像（バナー）は切り抜かずに全体を表示する */
+img.photo.photo-whole {
+  object-fit: contain;
+  background: var(--bg-sub);
+}
+
 /* ---- 紹介（h1）---- */
 .intro {
   padding-block: 32px;

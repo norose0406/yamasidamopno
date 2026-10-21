@@ -83,7 +83,7 @@
     const src = product.photos && product.photos[index || 0];
     if (!src) return window.illustration(product, scope);
     return (
-      '<img class="photo" src="' + src + '" alt="' + escapeHtml(plainName(product)) + '" loading="lazy" decoding="async"' +
+      '<img class="photo' + (product.bannerPhoto && !index ? ' photo-whole' : '') + '" src="' + src + '" alt="' + escapeHtml(plainName(product)) + '" loading="lazy" decoding="async"' +
       ' data-fallback="' + product.id + '" data-scope="' + scope + '">'
     );
   }
@@ -312,8 +312,8 @@
   }
 
   function renderAbout() {
-    $('#about-photos').innerHTML = ['shine', 'hayward', 'kanikanmusume']
-      .map((id) => '<div class="about-photo">' + visual(byId.get(id), 'about', 1) + '</div>')
+    $('#about-photos').innerHTML = [['shine', 1], ['hayward', 0], ['kanikanmusume', 1]]
+      .map(([id, index]) => '<div class="about-photo">' + visual(byId.get(id), 'about', index) + '</div>')
       .join('');
   }
 
