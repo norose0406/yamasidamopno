@@ -58,6 +58,6 @@ server.on('error', (err) => {
 
 server.listen(PORT, HOST, () => {
   const shown = HOST === '0.0.0.0' ? 'localhost' : HOST;
-  console.log(`甲斐のくだもの便 を起動しました → http://${shown}:${PORT}`);
+  console.log(`やまなしだもの 結 musubi を起動しました → http://${shown}:${PORT}`);
   console.log('止めるには Ctrl + C を押してください');
 });

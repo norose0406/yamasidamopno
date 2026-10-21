@@ -45,48 +45,66 @@
     return from + '月〜' + to + '月';
   }
 
-  // 旬なら「販売中」、旬でなければ次のシーズンの「予約受付中」として扱う。
+  // カートのキーは「商品ID:サイズID」
+  function cartKey(productId, variantId) {
+    return productId + ':' + variantId;
+  }
+
+  function findItem(products, key) {
+    const [productId, variantId] = String(key).split(':');
+    const product = products.find((p) => p.id === productId);
+    const variant = product && product.variants.find((v) => v.id === variantId);
+    return variant ? { product, variant } : null;
+  }
+
+  function minPrice(product) {
+    return Math.min(...product.variants.map((v) => v.price));
+  }
+
+  function totalStock(product) {
+    return product.variants.reduce((sum, v) => sum + Math.max(0, v.stock), 0);
+  }
+
+  // 売り切れ → 旬以外は「予約受付中」 → 在庫が少なければ「残りわずか」 → 「販売中」
   function availability(product, month) {
-    if (product.stock <= 0) return { status: 'soldout', label: '売り切れ' };
+    if (totalStock(product) <= 0) return { status: 'soldout', label: '売り切れ' };
     if (!isInSeason(product, month)) return { status: 'reserve', label: '予約受付中' };
-    if (product.stock <= LOW_STOCK) return { status: 'low', label: '残りわずか' };
+    if (product.variants.some((v) => v.stock > 0 && v.stock <= LOW_STOCK)) return { status: 'low', label: '残りわずか' };
     return { status: 'available', label: '販売中' };
   }
 
-  function maxQty(product) {
-    return Math.max(0, Math.min(MAX_QTY, product.stock));
+  function maxQty(variant) {
+    return Math.max(0, Math.min(MAX_QTY, variant.stock));
   }
 
   // 保存されていたカートを現在の商品データに合わせて整える。
   function normalizeCart(cart, products) {
-    const byId = new Map(products.map((p) => [p.id, p]));
     const result = {};
     if (!cart || typeof cart !== 'object') return result;
-    for (const [id, raw] of Object.entries(cart)) {
-      const product = byId.get(id);
+    for (const [key, raw] of Object.entries(cart)) {
+      const item = findItem(products, key);
       const qty = Math.floor(Number(raw));
-      if (!product || !Number.isFinite(qty) || qty <= 0) continue;
-      const limit = maxQty(product);
-      if (limit > 0) result[id] = Math.min(qty, limit);
+      if (!item || !Number.isFinite(qty) || qty <= 0) continue;
+      const limit = maxQty(item.variant);
+      if (limit > 0) result[key] = Math.min(qty, limit);
     }
     return result;
   }
 
   function calcTotals(cart, products, options) {
     const opts = Object.assign({ giftWrap: false, payment: null }, options);
-    const byId = new Map(products.map((p) => [p.id, p]));
     const lines = [];
     let subtotal = 0;
     let count = 0;
     let needsCool = false;
-    for (const [id, qty] of Object.entries(cart)) {
-      const product = byId.get(id);
-      if (!product || qty <= 0) continue;
-      const lineTotal = product.price * qty;
-      lines.push({ product, qty, lineTotal });
+    for (const [key, qty] of Object.entries(cart)) {
+      const item = findItem(products, key);
+      if (!item || qty <= 0) continue;
+      const lineTotal = item.variant.price * qty;
+      lines.push({ key, product: item.product, variant: item.variant, qty, lineTotal });
       subtotal += lineTotal;
       count += qty;
-      if (product.cool) needsCool = true;
+      if (item.product.cool) needsCool = true;
     }
     const empty = lines.length === 0;
     const shipping = empty || subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
@@ -161,7 +179,7 @@
   function generateOrderId(date, random) {
     const rand = typeof random === 'number' ? random : Math.random();
     const suffix = String(Math.floor(rand * 10000)).padStart(4, '0');
-    return 'YF-' + toDateString(date).replace(/-/g, '') + '-' + suffix;
+    return 'MS-' + toDateString(date).replace(/-/g, '') + '-' + suffix;
   }
 
   const api = {
@@ -177,6 +195,9 @@
     formatYen,
     isInSeason,
     seasonLabel,
+    cartKey,
+    findItem,
+    minPrice,
     availability,
     maxQty,
     normalizeCart,

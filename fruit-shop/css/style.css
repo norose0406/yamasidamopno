@@ -17,11 +17,9 @@
   --shadow: 0 2px 10px rgba(80, 50, 20, 0.08);
   --shadow-lg: 0 18px 48px rgba(60, 35, 10, 0.22);
   --radius: 14px;
-  --cal-peach: #f4a3a0;
   --cal-grape: #a98bd1;
-  --cal-plum: #d86a85;
-  --cal-cherry: #e8505b;
-  --cal-kaki: #e09a50;
+  --cal-kiwi: #9cc95a;
+  --cal-corn: #f2c53d;
   color-scheme: light;
 }
 
@@ -172,7 +170,15 @@ button {
 }
 
 .logo-mark {
-  font-size: 28px;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 19px;
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
 }
 
 .logo-text {
@@ -372,10 +378,38 @@ button {
 
 .hero-art {
   position: relative;
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  max-width: 520px;
+  justify-self: center;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--bg-alt);
+  box-shadow: var(--shadow-lg);
+}
+
+.hero-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.hero-photo.active {
+  opacity: 1;
+}
+
+/* 写真が読み込めないときのイラスト表示 */
+.hero-art-illustration {
   aspect-ratio: 1;
   max-width: 420px;
-  width: 100%;
-  justify-self: center;
+  border-radius: 0;
+  overflow: visible;
+  background: none;
+  box-shadow: none;
 }
 
 .hero-fruit {
@@ -552,6 +586,32 @@ button {
   height: auto;
 }
 
+.product-art .photo,
+.detail-art .photo,
+.cart-art .photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-art {
+  overflow: hidden;
+}
+
+.product-card:hover .product-art .photo {
+  transform: scale(1.04);
+}
+
+.product-art .photo {
+  transition: transform 0.3s ease;
+}
+
+.is-soldout .product-art .photo,
+.is-soldout .product-art svg {
+  filter: grayscale(0.7);
+  opacity: 0.6;
+}
+
 .badge {
   position: absolute;
   top: 12px;
@@ -707,11 +767,9 @@ button {
   background: var(--cal-color);
 }
 
-.cal-peach { --cal-color: var(--cal-peach); }
 .cal-grape { --cal-color: var(--cal-grape); }
-.cal-plum { --cal-color: var(--cal-plum); }
-.cal-cherry { --cal-color: var(--cal-cherry); }
-.cal-kaki { --cal-color: var(--cal-kaki); }
+.cal-kiwi { --cal-color: var(--cal-kiwi); }
+.cal-corn { --cal-color: var(--cal-corn); }
 
 /* ---- ガイド ---- */
 .guide-grid {
@@ -808,6 +866,7 @@ dialog::backdrop {
 }
 
 .detail-art {
+  overflow: hidden;
   display: grid;
   place-items: center;
   aspect-ratio: 1;
@@ -846,6 +905,51 @@ dialog::backdrop {
   background: var(--purple-soft);
   color: var(--purple);
   font-size: 13px;
+}
+
+.variant-picker {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 4px;
+}
+
+.variant-picker legend {
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.variant {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.variant:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.variant input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+
+.variant-price {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.variant.is-disabled {
+  cursor: not-allowed;
+  color: var(--text-muted);
 }
 
 .detail-actions {
@@ -936,6 +1040,7 @@ dialog::backdrop {
 }
 
 .cart-art {
+  overflow: hidden;
   display: grid;
   place-items: center;
   width: 64px;
@@ -1146,6 +1251,11 @@ legend {
   padding: 4px 0;
 }
 
+.summary-list small {
+  display: block;
+  color: var(--text-muted);
+}
+
 /* ---- 注文完了 ---- */
 .complete {
   text-align: center;
@@ -1212,8 +1322,12 @@ legend {
   }
 
   .hero-art {
-    max-width: 260px;
     order: -1;
+    border-radius: 18px;
+  }
+
+  .hero-art-illustration {
+    max-width: 260px;
   }
 
   .toolbar-right,

@@ -1,7 +1,7 @@
 {
   "name": "yamasidamopno",
   "private": true,
-  "description": "甲斐のくだもの便（山梨フルーツECサイトのデモ）と Chrome View 拡張機能",
+  "description": "やまなしだもの 結 musubi（山梨フルーツECサイトのデモ）と Chrome View 拡張機能",
   "scripts": {
     "start": "node fruit-shop/server.js",
     "test": "node --test fruit-shop/tests/shop.test.js"

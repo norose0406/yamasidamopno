@@ -12,15 +12,6 @@
     );
   }
 
-  function peach(id) {
-    return (
-      '<path d="M60 26c-4-8-12-12-20-10 4 6 10 10 20 10z" fill="' + LEAF + '"/>' +
-      '<path d="M60 30c22-6 40 10 40 34 0 22-18 38-40 38S20 86 20 64c0-24 18-40 40-34z" fill="url(#' + id + ')"/>' +
-      '<path d="M60 32c-6 14-6 40 2 66" stroke="#d9645a" stroke-width="2" fill="none" opacity=".45"/>' +
-      '<ellipse cx="44" cy="50" rx="8" ry="5" fill="#fff" opacity=".35"/>'
-    );
-  }
-
   function grape(id) {
     const rows = [[42, 54, 66, 78], [48, 60, 72], [54, 66], [60]];
     const ys = [46, 59, 72, 85];
@@ -37,56 +28,48 @@
     );
   }
 
-  function plum(id) {
-    return (
-      '<path d="M60 30c0-6 2-10 5-13" stroke="' + STEM + '" stroke-width="3" fill="none" stroke-linecap="round"/>' +
-      '<path d="M64 22c8-6 18-4 22 2-8 4-16 4-22-2z" fill="' + LEAF + '"/>' +
-      '<circle cx="60" cy="66" r="36" fill="url(#' + id + ')"/>' +
-      '<path d="M60 31c-8 12-8 50 0 70" stroke="#000" stroke-width="1.5" fill="none" opacity=".15"/>' +
-      '<ellipse cx="46" cy="52" rx="8" ry="5" fill="#fff" opacity=".3"/>'
-    );
-  }
-
-  function cherry(id) {
-    return (
-      '<path d="M40 76C46 50 58 30 68 18M82 72C78 50 72 32 68 18" stroke="' + STEM + '" stroke-width="3" fill="none" stroke-linecap="round"/>' +
-      '<path d="M68 18c10-8 22-6 26 2-10 4-18 4-26-2z" fill="' + LEAF + '"/>' +
-      '<circle cx="40" cy="82" r="18" fill="url(#' + id + ')"/>' +
-      '<circle cx="82" cy="80" r="18" fill="url(#' + id + ')"/>' +
-      '<ellipse cx="34" cy="76" rx="5" ry="3" fill="#fff" opacity=".45"/>' +
-      '<ellipse cx="76" cy="74" rx="5" ry="3" fill="#fff" opacity=".45"/>'
-    );
-  }
-
-  function kaki(id) {
-    let fruits = '';
-    [[38, 70], [82, 70], [60, 52]].forEach(([x, y]) => {
-      fruits +=
-        '<ellipse cx="' + x + '" cy="' + y + '" rx="22" ry="20" fill="url(#' + id + ')"/>' +
-        '<ellipse cx="' + x + '" cy="' + y + '" rx="22" ry="20" fill="#fff" opacity=".18"/>' +
-        '<path d="M' + (x - 6) + ' ' + (y - 19) + 'l6 5 6-5" stroke="#4a3520" stroke-width="3" fill="none" stroke-linecap="round"/>';
-    });
-    return '<path d="M20 96h80" stroke="#c8a97e" stroke-width="4" stroke-linecap="round"/>' + fruits;
-  }
-
-  function jam(id, colors) {
-    function jar(x, color) {
-      return (
-        '<rect x="' + (x - 13) + '" y="40" width="26" height="8" rx="2" fill="#c49a5a"/>' +
-        '<rect x="' + (x - 15) + '" y="48" width="30" height="46" rx="6" fill="' + color + '"/>' +
-        '<rect x="' + (x - 10) + '" y="62" width="20" height="14" rx="2" fill="#fffaf0"/>' +
-        '<rect x="' + (x - 11) + '" y="52" width="4" height="34" rx="2" fill="#fff" opacity=".35"/>'
-      );
+  function kiwi(id) {
+    let seeds = '';
+    for (let i = 0; i < 14; i++) {
+      const a = (i / 14) * Math.PI * 2;
+      const x = (68 + Math.cos(a) * 15).toFixed(1);
+      const y = (72 + Math.sin(a) * 13).toFixed(1);
+      seeds += '<ellipse cx="' + x + '" cy="' + y + '" rx="1.6" ry="2.6" fill="#2b2112" transform="rotate(' + ((a * 180) / Math.PI + 90).toFixed(0) + ' ' + x + ' ' + y + ')"/>';
     }
-    return jar(32, colors[0]) + jar(60, colors[1]) + jar(88, '#a8c66c');
+    return (
+      '<ellipse cx="44" cy="54" rx="26" ry="32" fill="#8a6a3f" transform="rotate(-20 44 54)"/>' +
+      '<ellipse cx="40" cy="44" rx="8" ry="12" fill="#fff" opacity=".12" transform="rotate(-20 40 44)"/>' +
+      '<ellipse cx="68" cy="72" rx="32" ry="28" fill="#8a6a3f"/>' +
+      '<ellipse cx="68" cy="72" rx="29" ry="25" fill="url(#' + id + ')"/>' +
+      '<ellipse cx="68" cy="72" rx="9" ry="7" fill="#f4f7d8"/>' +
+      seeds
+    );
   }
 
-  const DRAW = { peach, grape, plum, cherry, kaki, jam };
+  function corn(id) {
+    let kernels = '';
+    for (let row = 0; row < 9; row++) {
+      for (let col = 0; col < 4; col++) {
+        const x = 50 + col * 7 + (row % 2) * 3.5;
+        const y = 30 + row * 8;
+        kernels += '<rect x="' + x + '" y="' + y + '" width="6" height="7" rx="2.5" fill="url(#' + id + ')"/>';
+      }
+    }
+    return (
+      '<ellipse cx="64" cy="64" rx="17" ry="40" fill="#d9a400" opacity=".35"/>' +
+      kernels +
+      '<path d="M62 106C40 96 30 70 36 44c6 22 16 42 28 56z" fill="#6aa84f"/>' +
+      '<path d="M66 106c22-10 32-36 26-62-6 22-16 42-28 56z" fill="#4f8f3a"/>' +
+      '<path d="M64 106c0-6 1-14 3-20" stroke="#4f8f3a" stroke-width="4" stroke-linecap="round"/>'
+    );
+  }
+
+  const DRAW = { grape, kiwi, corn };
 
   // 同じ商品のイラストが一覧・詳細・カートに同時に出るので、scope でグラデーションIDを分ける。
   function illustration(product, scope) {
     const id = 'g-' + (scope || 'x') + '-' + product.id;
-    const draw = DRAW[product.art.type] || plum;
+    const draw = DRAW[product.art.type] || grape;
     return (
       '<svg viewBox="0 0 120 120" role="img" aria-label="' + product.name + 'のイラスト">' +
       gradient(id, product.art.colors) +

@@ -33,6 +33,6 @@ extension/
 
 ---
 
-# 甲斐のくだもの便（山梨フルーツECサイト）
+# やまなしだもの 結 musubi（山梨フルーツECサイト）
 
-`fruit-shop/` に、山梨県産フルーツを販売するECサイトのデモがあります。`fruit-shop/index.html` をブラウザで開くと動きます。詳しくは [fruit-shop/README.md](fruit-shop/README.md) を見てください。
+`fruit-shop/` に、やまなしだもの 結 musubi の商品をもとにしたECサイトのデモがあります。`npm start` で http://localhost:8080 を開くか、`fruit-shop/index.html` をブラウザで開くと動きます。詳しくは [fruit-shop/README.md](fruit-shop/README.md) を見てください。
