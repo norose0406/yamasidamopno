@@ -9,6 +9,7 @@
   --border-strong: #111111;
   --accent: #c8202f;
   --accent-soft: #fbe9ea;
+  --on-accent: #ffffff;
   --green: #2f7a3b;
   --green-soft: #e7f3e8;
   --purple: #5b3f9a;
@@ -17,6 +18,8 @@
   --amber-soft: #fff1d9;
   --btn-bg: #111111;
   --btn-text: #ffffff;
+  --ink-bg: #111111;
+  --ink-text: #ffffff;
   --overlay: rgba(0, 0, 0, 0.45);
   --cal-grape: #9a7fd0;
   --cal-kiwi: #8dbb4c;
@@ -36,6 +39,7 @@
     --border-strong: #f2f2f2;
     --accent: #ff6b75;
     --accent-soft: #3a1d20;
+    --on-accent: #111111;
     --green: #86c98f;
     --green-soft: #1d3220;
     --purple: #c2adf0;
@@ -44,6 +48,8 @@
     --amber-soft: #3a2b14;
     --btn-bg: #f2f2f2;
     --btn-text: #111111;
+    --ink-bg: #000000;
+    --ink-text: #f2f2f2;
     --overlay: rgba(0, 0, 0, 0.65);
     color-scheme: dark;
   }
@@ -59,6 +65,7 @@
   --border-strong: #f2f2f2;
   --accent: #ff6b75;
   --accent-soft: #3a1d20;
+  --on-accent: #111111;
   --green: #86c98f;
   --green-soft: #1d3220;
   --purple: #c2adf0;
@@ -67,6 +74,8 @@
   --amber-soft: #3a2b14;
   --btn-bg: #f2f2f2;
   --btn-text: #111111;
+  --ink-bg: #000000;
+  --ink-text: #f2f2f2;
   --overlay: rgba(0, 0, 0, 0.65);
   color-scheme: dark;
 }
@@ -176,8 +185,9 @@ svg {
 .notice-bar {
   margin: 0;
   padding: 6px 16px;
-  background: var(--btn-bg);
-  color: var(--btn-text);
+  background: var(--ink-bg);
+  color: var(--ink-text);
+  border-bottom: 1px solid var(--border);
   font-size: 12px;
   text-align: center;
 }
@@ -291,7 +301,7 @@ svg {
   padding: 0 4px;
   border-radius: 9px;
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
   font-size: 10px;
   font-weight: 700;
   line-height: 17px;
@@ -355,8 +365,10 @@ svg {
   transition: opacity 0.15s;
 }
 
-.btn:hover:not(:disabled) {
-  opacity: 0.8;
+@media (hover: hover) {
+  .btn:hover:not(:disabled) {
+    opacity: 0.8;
+  }
 }
 
 .btn:disabled {
@@ -507,7 +519,12 @@ svg {
 }
 
 .section-head h2 {
-  font-size: 20px;
+  font-size: 22px;
+  letter-spacing: 0.02em;
+}
+
+.section-head .en {
+  margin-bottom: 2px;
 }
 
 .section-note {
@@ -570,8 +587,11 @@ svg {
   transition: transform 0.4s ease;
 }
 
-.card-link:hover .photo {
-  transform: scale(1.04);
+@media (hover: hover) {
+  .card-link:hover .photo,
+  .tile:hover .photo {
+    transform: scale(1.04);
+  }
 }
 
 .card-link svg {
@@ -638,14 +658,16 @@ svg {
 }
 
 .card-name {
-  margin: 4px 0 2px;
-  font-size: 13px;
+  margin: 6px 0 2px;
+  font-size: 14px;
   font-weight: 700;
+  line-height: 1.5;
 }
 
 .card-name button {
   display: -webkit-box;
   padding: 0;
+  line-height: inherit;
   border: none;
   background: none;
   text-align: left;
@@ -665,8 +687,8 @@ svg {
 }
 
 .card-price {
-  margin: 2px 0 0;
-  font-size: 15px;
+  margin: 4px 0 0;
+  font-size: 16px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
@@ -748,10 +770,6 @@ svg {
   transition: transform 0.4s ease;
 }
 
-.tile:hover .photo {
-  transform: scale(1.04);
-}
-
 .tile-media svg {
   width: 50%;
 }
@@ -820,7 +838,7 @@ svg {
 .field select,
 .field textarea {
   width: 100%;
-  min-height: 44px;
+  min-height: 48px;
   padding: 10px 12px;
   border: 1px solid var(--border);
   border-radius: 2px;
@@ -828,8 +846,14 @@ svg {
   font-size: 16px;
 }
 
+.field input,
+.field select {
+  line-height: 1.5;
+}
+
 .select select {
   width: auto;
+  min-height: 44px;
   font-size: 13px;
 }
 
@@ -1120,13 +1144,35 @@ svg {
 }
 
 .contact-routes a {
+  position: relative;
   display: flex;
   flex-direction: column;
-  padding: 12px 16px;
+  justify-content: center;
+  min-height: 64px;
+  padding: 10px 44px 10px 16px;
   background: var(--surface);
   border: 1px solid var(--border);
   text-decoration: none;
   font-size: 15px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.contact-routes a::after {
+  content: "";
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.contact-routes a[href^="tel:"] {
+  font-size: 20px;
+  letter-spacing: 0.04em;
 }
 
 .contact-routes a:hover {
@@ -1134,7 +1180,8 @@ svg {
 }
 
 .contact-routes strong {
-  font-size: 11px;
+  font-size: 12px;
+  font-weight: 700;
   letter-spacing: 0.08em;
   color: var(--text-muted);
 }
@@ -1142,6 +1189,7 @@ svg {
 .contact-form {
   padding: 24px;
   background: var(--surface);
+  border: 1px solid var(--border);
 }
 
 .chip-options {
@@ -1164,7 +1212,7 @@ svg {
 .chip-option span {
   display: inline-flex;
   align-items: center;
-  min-height: 40px;
+  min-height: 44px;
   padding: 6px 14px;
   border: 1px solid var(--border);
   border-radius: 2px;
@@ -1312,8 +1360,9 @@ fieldset.field {
 /* ---- フッター ---- */
 .site-footer {
   padding: 40px 0 24px;
-  background: var(--btn-bg);
-  color: var(--btn-text);
+  background: var(--ink-bg);
+  color: var(--ink-text);
+  border-top: 1px solid var(--border);
   font-size: 13px;
 }
 
@@ -1444,9 +1493,17 @@ dialog::backdrop {
 
 .thumbs {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-auto-flow: column;
+  /* 7枚目以降は半分だけ見せて、横にスクロールできることを伝える */
+  grid-auto-columns: calc((100% - 36px) / 6.5);
   gap: 6px;
   margin-top: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.thumbs::-webkit-scrollbar {
+  display: none;
 }
 
 .thumbs button {
@@ -1776,7 +1833,7 @@ dialog::backdrop {
 .totals {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 4px 12px;
+  gap: 4px 0;
   margin: 0 0 12px;
   font-size: 13px;
   font-variant-numeric: tabular-nums;
@@ -1788,6 +1845,7 @@ dialog::backdrop {
 
 .totals dd {
   margin: 0;
+  padding-left: 12px;
   text-align: right;
 }
 
@@ -2009,11 +2067,16 @@ dialog::backdrop {
   }
 
   .card-name {
-    font-size: 12px;
+    font-size: 13px;
+  }
+
+  .section-head h2 {
+    font-size: 20px;
   }
 
   .field-row {
     grid-template-columns: 1fr;
+    gap: 0;
   }
 
   .contact-form {
@@ -2070,7 +2133,7 @@ dialog::backdrop {
     padding: 0;
     border: none;
     background: none;
-    font-size: 10px;
+    font-size: 11px;
     text-decoration: none;
   }
 
@@ -2185,5 +2248,11 @@ dialog::backdrop {
 
   .product-page .header-main {
     grid-template-areas: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .product-page .header-main > * {
+    grid-area: auto;
   }
 }
